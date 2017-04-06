@@ -11,9 +11,12 @@ GEN_CMDS__FLAG := -l"/Users/justin/Documents/TI_CCS_Workspace/tirtos_builds_MSP_
 
 ORDERED_OBJS += \
 "./MSP_EXP432P401R.obj" \
+"./PololuQik.obj" \
 "./accelThread.obj" \
 "./main_tirtos.obj" \
+"./motorThread.obj" \
 "./sdCardThread.obj" \
+"./xbeeThread.obj" \
 "../MSP_EXP432P401R_TIRTOS.cmd" \
 $(GEN_CMDS__FLAG) \
 -l"/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/display/lib/display.aem4f" \
@@ -164,8 +167,8 @@ Bridge_Inspection_Robot.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "MSP_EXP432P401R.obj" "accelThread.obj" "main_tirtos.obj" "sdCardThread.obj" 
-	-$(RM) "MSP_EXP432P401R.d" "accelThread.d" "main_tirtos.d" "sdCardThread.d" 
+	-$(RM) "MSP_EXP432P401R.obj" "PololuQik.obj" "accelThread.obj" "main_tirtos.obj" "motorThread.obj" "sdCardThread.obj" "xbeeThread.obj" 
+	-$(RM) "MSP_EXP432P401R.d" "PololuQik.d" "accelThread.d" "main_tirtos.d" "motorThread.d" "sdCardThread.d" "xbeeThread.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

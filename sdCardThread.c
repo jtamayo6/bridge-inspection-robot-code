@@ -47,11 +47,11 @@
 #include <semaphore.h>
 
 /* Driver Header files */
-#include <ti/display/Display.h>
+// #include <ti/display/Display.h>
 #include <third_party/fatfs/ffcio.h>
 
 // #include <ti/drivers/GPIO.h>
-#include <ti/drivers/SDSPI.h>
+// #include <ti/drivers/SDSPI.h>
 
 /* Example/Board Header files */
 #include "Board.h"
@@ -295,7 +295,9 @@ void *sdCardThread(void *arg0)
     // }
 
     /* Close the file */
-    fclose(dst);
+    // fclose(dst);
+
+    pthread_barrier_wait(&barrier);
 
     /* Stopping the SDCard */
     SDSPI_close(sdspiHandle);

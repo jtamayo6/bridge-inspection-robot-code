@@ -44,10 +44,11 @@
 #include <ti/sysbios/BIOS.h>
 
 /* Driver Header files */
-#include <ti/drivers/GPIO.h>
-#include <ti/display/Display.h>
-#include <ti/drivers/Timer.h>
-#include <ti/drivers/SDSPI.h>
+// #include <ti/drivers/GPIO.h>
+// #include <ti/display/Display.h>
+// #include <ti/drivers/SDSPI.h>
+// #include <ti/drivers/Timer.h>
+// #include <ti/drivers/UART.h>
 
 /* Example/Board Header files */
 #include "Board.h"
@@ -56,6 +57,8 @@ Display_Handle display;
 
 extern void *sdCardThread(void *arg0);
 extern void *accelThread(void *arg0);
+extern void *motorThread(void *arg0);
+extern void *xbeeThread(void *arg0);
 
 pthread_barrier_t barrier;
 sem_t semAccelData;   // Semaphore between accelerometer and SD card
@@ -82,9 +85,10 @@ int main(void)
     SPI_init();
     SDSPI_init();
     Timer_init();
+    UART_init();
 
-    // Initialize barrier to sync accelerometer and SD card threads
-    pthread_barrier_init(&barrier, NULL, 2);
+    // Initialize barrier to sync XBee, accelerometer, and SD card threads
+    pthread_barrier_init(&barrier, NULL, 3);
 
     // Initialize semaphore for accelerometer data
     retc = sem_init(&semAccelData, 0, 0);
@@ -116,6 +120,18 @@ int main(void)
     priParam.sched_priority = 2;
     pthread_attr_setschedparam(&pAttrs, &priParam);
     retc = pthread_create(&thread, &pAttrs, accelThread, NULL);
+    if (retc != 0) while (1);  // pthread_create() failed
+
+    // Create motor controller thread
+    priParam.sched_priority = 3;
+    pthread_attr_setschedparam(&pAttrs, &priParam);
+    retc = pthread_create(&thread, &pAttrs, motorThread, NULL);
+    if (retc != 0) while (1);  // pthread_create() failed
+
+    // Create XBee thread
+    priParam.sched_priority = 4;
+    pthread_attr_setschedparam(&pAttrs, &priParam);
+    retc = pthread_create(&thread, &pAttrs, xbeeThread, NULL);
     if (retc != 0) while (1);  // pthread_create() failed
 
     display = Display_open(Display_Type_UART, NULL);

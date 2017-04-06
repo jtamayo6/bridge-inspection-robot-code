@@ -175,22 +175,22 @@ main_tirtos.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/
 main_tirtos.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IGateProvider.h
 main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/BIOS__epilogue.h
 main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/package/BIOS_RtsGateProxy.h
-main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/GPIO.h
-main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/display/Display.h
-main_tirtos.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdarg.h
-main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Timer.h
-main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/SDSPI.h
 main_tirtos.obj: ../Board.h
 main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/ADC.h
 main_tirtos.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdbool.h
 main_tirtos.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
 main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/ADCBuf.h
 main_tirtos.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
+main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/display/Display.h
+main_tirtos.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdarg.h
+main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/GPIO.h
 main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/I2C.h
 main_tirtos.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
 main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/PWM.h
+main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/SDSPI.h
 main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/SPI.h
 main_tirtos.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
+main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Timer.h
 main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/UART.h
 main_tirtos.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
 main_tirtos.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Watchdog.h
@@ -371,22 +371,22 @@ main_tirtos.obj: ../MSP_EXP432P401R.h
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IGateProvider.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/BIOS__epilogue.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/package/BIOS_RtsGateProxy.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/GPIO.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/display/Display.h: 
-/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdarg.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Timer.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/SDSPI.h: 
 ../Board.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/ADC.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdbool.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/ADCBuf.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/display/Display.h: 
+/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdarg.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/GPIO.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/I2C.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/PWM.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/SDSPI.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/SPI.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Timer.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/UART.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Watchdog.h: 

@@ -39,11 +39,13 @@ extern "C" {
 
 #include <ti/drivers/ADC.h>
 #include <ti/drivers/ADCBuf.h>
+#include <ti/display/Display.h>
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/I2C.h>
 #include <ti/drivers/PWM.h>
 #include <ti/drivers/SDSPI.h>
 #include <ti/drivers/SPI.h>
+#include <ti/drivers/Timer.h>
 #include <ti/drivers/UART.h>
 #include <ti/drivers/Watchdog.h>
 
@@ -100,8 +102,11 @@ extern "C" {
 #define Board_TIMER3                MSP_EXP432P401R_TIMER_TA_2
 #define Board_TIMER4                MSP_EXP432P401R_TIMER_TA_3
 
+// Modified Boart_UARTx defines
 #define Board_UART0                 MSP_EXP432P401R_UARTA0
-#define Board_UART1                 MSP_EXP432P401R_UARTA2
+#define Board_UART1                 MSP_EXP432P401R_UARTA1
+#define Board_UART2                 MSP_EXP432P401R_UARTA2
+#define Board_UART3                 MSP_EXP432P401R_UARTA3
 
 #define Board_WATCHDOG0             MSP_EXP432P401R_WATCHDOG
 

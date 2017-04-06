@@ -162,22 +162,22 @@ accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/semaphore.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/GPIO.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/SPI.h
-accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdbool.h
-accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/display/Display.h
-accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdarg.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Timer.h
 accelThread.obj: ../Board.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/ADC.h
+accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdbool.h
 accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/ADCBuf.h
 accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/display/Display.h
+accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdarg.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/GPIO.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/I2C.h
 accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/PWM.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/SDSPI.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/SPI.h
+accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Timer.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/UART.h
 accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Watchdog.h
@@ -345,22 +345,22 @@ accelThread.obj: ../MSP_EXP432P401R.h
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/semaphore.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/GPIO.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/SPI.h: 
-/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdbool.h: 
-/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/display/Display.h: 
-/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdarg.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Timer.h: 
 ../Board.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/ADC.h: 
+/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdbool.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/ADCBuf.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/display/Display.h: 
+/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdarg.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/GPIO.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/I2C.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/PWM.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/SDSPI.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/SPI.h: 
+/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Timer.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/UART.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Watchdog.h: 
