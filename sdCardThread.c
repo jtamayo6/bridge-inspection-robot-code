@@ -246,7 +246,7 @@ void *sdCardThread(void *arg0)
             bytesWritten = fwrite(accelDataBuffer1, sizeof *accelDataBuffer1, ACCEL_DATA_BUF_COUNT, dst);
         }
 //        bytesWritten = fwrite(textarray, 1, sizeof(textarray), dst);
-        Display_printf(display, 0, 0, "bytesWritten = %d", bytesWritten);
+        // Display_printf(display, 0, 0, "bytesWritten = %d", bytesWritten);
         if (bytesWritten < ACCEL_DATA_BUF_COUNT) {
             Display_printf(display, 0, 0, "Disk Full");
             break; /* Error or Disk Full */
@@ -256,7 +256,7 @@ void *sdCardThread(void *arg0)
 
         /*  Update the total number of bytes copied */
         totalBytesCopied += bytesWritten;
-        Display_printf(display, 0, 0, "Writing from buffer %d complete", (i%2));
+        // Display_printf(display, 0, 0, "Writing from buffer %d complete", (i%2));
     }
 
     // fflush(dst);
@@ -275,24 +275,24 @@ void *sdCardThread(void *arg0)
     Display_printf(display, 0, 0, "(Wrote %u B) to \"%s\" \n", totalBytesCopied, outputfile);
 
     /* Now output the outputfile[] contents onto the console */
-    dst = fopen(outputfile, "r");
-    if (!dst) {
-        Display_printf(display, 0, 0, "Error opening \"%s\"\n", outputfile);
-        Display_printf(display, 0, 0, "Aborting...\n");
-        while (1);
-    }
+    // dst = fopen(outputfile, "r");
+    // if (!dst) {
+    //     Display_printf(display, 0, 0, "Error opening \"%s\"\n", outputfile);
+    //     Display_printf(display, 0, 0, "Aborting...\n");
+    //     while (1);
+    // }
 
     /* Print file contents */
-    while (true) {
-        /* Read from output file */
-        bytesRead = fread(cpy_buff, 1, CPY_BUFF_SIZE, dst);
-        if (bytesRead == 0) {
-            break; /* Error or EOF */
-        }
-        cpy_buff[bytesRead] = '\0';
-        /* Write output */
-        Display_printf(display, 0, 0, "%s", cpy_buff);
-    }
+    // while (true) {
+    //     /* Read from output file */
+    //     bytesRead = fread(cpy_buff, 1, CPY_BUFF_SIZE, dst);
+    //     if (bytesRead == 0) {
+    //         break; /* Error or EOF */
+    //     }
+    //     cpy_buff[bytesRead] = '\0';
+    //     /* Write output */
+    //     Display_printf(display, 0, 0, "%s", cpy_buff);
+    // }
 
     /* Close the file */
     fclose(dst);

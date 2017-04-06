@@ -90,9 +90,9 @@ extern "C" {
 #define Board_SDSPI0                MSP_EXP432P401R_SDSPIB1
 
 #define Board_SPI0                  MSP_EXP432P401R_SPIB0
-#define Board_SPI1                  MSP_EXP432P401R_SPIB2
-#define Board_SPI2                  MSP_EXP432P401R_SPIB3
-#define Board_SPI3                  MSP_EXP432P401R_SPIB4
+#define Board_SPI1                  MSP_EXP432P401R_SPIB1
+#define Board_SPI2                  MSP_EXP432P401R_SPIB2
+#define Board_SPI3                  MSP_EXP432P401R_SPIB3
 
 #define Board_TIMER0                MSP_EXP432P401R_TIMER_T32_0
 #define Board_TIMER1                MSP_EXP432P401R_TIMER_T32_1
