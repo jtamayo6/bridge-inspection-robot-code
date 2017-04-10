@@ -35,12 +35,12 @@
  */
 
 /* XDCtools Header files */
-#include <xdc/std.h>
-#include <xdc/runtime/System.h>
+#include <stdint.h>
+#include <stddef.h>
 
-/* BIOS Header files */
-#include <ti/sysbios/BIOS.h>
-#include <ti/sysbios/knl/Task.h>
+/* POSIX Header files */
+#include <pthread.h>
+#include <semaphore.h>
 
 /* TI-RTOS Header files */
 // #include <ti/drivers/GPIO.h>
@@ -56,6 +56,11 @@
 #define TASKSTACKSIZE     768
 
 extern Display_Handle display;
+
+pthread_mutex_t encoderCount0Mutex;
+pthread_mutex_t encoderCount1Mutex;
+
+extern sem_t semMoveMotors;
 
 int32_t encoderCount = 0;
 
@@ -107,6 +112,121 @@ int32_t encoderCount = 0;
 //
 //}
 
+int count0 = 0;
+int count1 = 0;
+int count0Copy = 0;
+int count1Copy = 0;
+bool keepMoving = true;
+
+uint8_t triggeredVal0;
+uint8_t otherVal0;
+uint8_t direction0;
+
+uint8_t triggeredVal1;
+uint8_t otherVal1;
+uint8_t direction1;
+
+void motor0_encoderAInt(uint_least8_t index)
+{
+    /* Clear the GPIO interrupt and toggle an LED */
+
+    // triggeredVal0 = GPIO_read(4);
+    otherVal0 = GPIO_read(9);
+    // direction0 = (triggeredVal0 ^ otherVal0) & 0x01;
+    // direction0 ? count0++ : count0--;
+
+    // pthread_mutex_lock(&encoderCount0Mutex);
+    otherVal0 ? count0++ : count0--;
+    // GPIO_write(Board_GPIO_LED0, (/*triggeredVal &*/ direction0));
+    // pthread_mutex_unlock(&encoderCount0Mutex);
+
+    if (count0 >= 5000) keepMoving = false;
+
+    // GPIO_write(Board_GPIO_LED0, otherVal0);
+
+//    GPIO_write(Board_GPIO_LED1, (/*triggeredVal &*/ (0x01 ^ direction0)));
+//    System_printf("triggeredVal = %d, otherVal = %d\n", triggeredVal, otherVal);
+//    System_flush();
+}
+
+void motor0_encoderBInt(uint_least8_t index)
+{
+    /* Clear the GPIO interrupt and toggle an LED */
+
+    // triggeredVal0 = GPIO_read(4);
+    otherVal0 = GPIO_read(8);
+    // direction0 = (triggeredVal0 ^ otherVal0) & 0x01;
+    // direction0 ? count0++ : count0--;
+
+    // pthread_mutex_lock(&encoderCount0Mutex);
+    otherVal0 ? count0-- : count0++;
+    // GPIO_write(Board_GPIO_LED0, (/*triggeredVal &*/ direction0));
+    // pthread_mutex_unlock(&encoderCount0Mutex);
+
+    if (count0 >= 5000) keepMoving = false;
+
+    // GPIO_write(Board_GPIO_LED1, otherVal0);
+
+//    GPIO_write(Board_GPIO_LED1, (/*triggeredVal &*/ (0x01 ^ direction0)));
+//    System_printf("triggeredVal = %d, otherVal = %d\n", triggeredVal, otherVal);
+//    System_flush();
+}
+
+/* Motor 1 moves in the opposite direction as Motor 0 when going forward, 
+ * so flip the count increment/decrements
+ */
+void motor1_encoderAInt(uint_least8_t index)
+{
+    /* Clear the GPIO interrupt and toggle an LED */
+
+    // triggeredVal0 = GPIO_read(4);
+    otherVal1 = GPIO_read(11);
+    // direction0 = (triggeredVal0 ^ otherVal0) & 0x01;
+    // direction0 ? count0++ : count0--;
+
+    otherVal1 ? count1-- : count1++;
+
+    if (count1 >= 5000) keepMoving = false;
+}
+
+void motor1_encoderBInt(uint_least8_t index)
+{
+    /* Clear the GPIO interrupt and toggle an LED */
+
+    // triggeredVal0 = GPIO_read(4);
+    otherVal1 = GPIO_read(10);
+    // direction0 = (triggeredVal0 ^ otherVal0) & 0x01;
+    // direction0 ? count0++ : count0--;
+
+    otherVal1 ? count1++ : count1--;
+
+    if (count1 >= 5000) keepMoving = false;
+}
+
+// void encoderTimerCallback(Timer_Handle myHandle)
+// {
+//     // pthread_mutex_lock(&encoderCount0Mutex);
+//     count0Copy = count0;
+//     // count1Copy = count1;
+//     // pthread_mutex_unlock(&encoderCount0Mutex);
+
+//     // // Differential code for motors
+//     // countdiff = count0 - count1;
+//     // if (countdiff > 32) {
+//     //     countdiff = 32;
+//     // } else if (countdiff < -32) {
+//     //     countdiff = -32;
+//     // }
+//     // PololuQik_setSpeeds(uart, 64 + countdiff, -64 - countdiff);
+
+//     sem_post(&semMoveMotors);
+
+//     // Display_printf(display, 0, 0, "motor0 count = %d", count0Copy);
+
+//     // encoderCount++;
+//     // Display_printf(display, 0, 0, "time = %d s", encoderCount);
+
+// }
 
 /*
  *  ======== echoFxn ========
@@ -117,7 +237,8 @@ void *motorThread(void *arg0)
     char input;
     UART_Handle uartMotor;
     UART_Params uartParams;
-    const char echoPrompt[] = "\fEchoing characters:\r\n";
+    // const char echoPrompt[] = "\fEchoing characters:\r\n";
+    int retc;
 
     /* Create a UART with data processing off. */
     UART_Params_init(&uartParams);
@@ -135,6 +256,35 @@ void *motorThread(void *arg0)
     // UART_write(uartPC, &input, 1);
     Display_printf(display, 0, 0, "%c", input);
 
+    retc = pthread_mutex_init(&encoderCount0Mutex, NULL);
+    if (retc != 0) while (1);   // pthread_mutex_init() failed
+
+    // Timer_Handle timer1;
+    // Timer_Params params;
+
+    // Timer_Params_init(&params);
+    // params.period = 200000;    // 200,000 us = 0.2 s
+    // params.periodUnits = Timer_PERIOD_US;
+    // params.timerMode = Timer_CONTINUOUS_CALLBACK;   // Timer_FREE_RUNNING;
+    // params.timerCallback = encoderTimerCallback;
+
+    // timer1 = Timer_open(Board_TIMER1, &params);
+    // if (timer1 == NULL) while (1);   // Failed to initialized timer
+
+    GPIO_setCallback(8, motor0_encoderAInt);
+    GPIO_setCallback(9, motor0_encoderBInt);
+    GPIO_setCallback(10, motor1_encoderAInt);
+    GPIO_setCallback(11, motor1_encoderBInt);
+
+
+    /* Enable interrupts */
+    GPIO_enableInt(8);
+    GPIO_enableInt(9);
+    GPIO_enableInt(10);
+    GPIO_enableInt(11);
+
+    // if (Timer_start(timer1) == Timer_STATUS_ERROR) while (1); // Failed to start timer
+
     //    UART_write(uartMotor, echoPrompt, sizeof(echoPrompt));
     //    System_printf("Serial starting\n" );
 
@@ -144,26 +294,98 @@ void *motorThread(void *arg0)
 //        UART_write(uartMotor, &input, 1);
 //    }
 
-    int i;
-    PololuQik_setSpeeds(uartMotor, 64, 64);
-    Task_sleep(5000);
-    PololuQik_setSpeeds(uartMotor, 0, 0);
+    
+    // PololuQik_setSpeeds(uartMotor, 64, 64);
+    // Task_sleep(5000);
+    // PololuQik_setSpeeds(uartMotor, 0, 0);
+
     while (1) {
+        count0 = 0;
+        count1 = 0;
+        keepMoving = true;
+        retc = sem_wait(&semMoveMotors);
+        if (retc == -1) while (1);
+
+        // if (Timer_start(timer1) == Timer_STATUS_ERROR) while (1); // Failed to start timer
+        int motor0Speed = 64;
+        int motor1Speed = 64;
+        PololuQik_setSpeeds(uartMotor, motor0Speed, -motor1Speed);
+
+        // while (keepMoving);
+        int error;
+        while (keepMoving) {
+            error = (count0Copy - count1Copy)/8/2;
+            // if (error > 0) {
+                motor0Speed -= error;
+                if (motor0Speed > 127) {
+                    motor0Speed = 127;
+                } else if (motor0Speed < -127) {
+                    motor0Speed = -127;
+                }
+
+                motor1Speed += error;
+                if (motor1Speed > 127) {
+                    motor1Speed = 127;
+                } else if (motor1Speed < -127) {
+                    motor1Speed = -127;
+                }
+            // } else {
+            //     motor0Speed += error;
+            //     if (motor0Speed > 127) {
+            //         motor0Speed = 127;
+            //     } else if (motor0Speed < -127) {
+            //         motor0Speed = -127;
+            //     }
+
+            //     motor1Speed -= error;
+            //     if (motor1Speed > 127) {
+            //         motor1Speed = 127;
+            //     } else if (motor1Speed < -127) {
+            //         motor1Speed = -127;
+            //     }
+            // }
+            
+            PololuQik_setSpeeds(uartMotor, motor0Speed, -motor1Speed);
+
+            sem_wait(&semMoveMotors);
+        }
+
+        // Timer_stop(timer1);
+        PololuQik_setSpeeds(uartMotor, 0, 0);
+        // count0Copy = count0;
+
+        // sem_wait(&semMoveMotors);
+        sleep(1);
+
+        sem_post(&semMoveMotors);
+        // sem_wait(&semMoveMotors);
+
+        // count0Copy = count0;
+        // pthread_mutex_unlock(&encoderCount0Mutex);
+
+        Display_printf(display, 0, 0, "Final motors count = %d %d", count0, count1);
+        // encoderCount++;
+        // Display_printf(display, 0, 0, "time = %d s", encoderCount);
+        // sleep(1);
+    }
+
+    // int i;
+//    while (1) {
 //        for (i = 0; i <= 127; i++) {
 //            PololuQik_setSpeeds(uartMotor, i, -i);
-////            PololuQik_setM0Speed(uartMotor, i);
+// //            PololuQik_setM0Speed(uartMotor, i);
 //            Task_sleep(20);
 //        }
-//
+
 //        for (i = 127; i >= -127; i--) {
 //            PololuQik_setSpeeds(uartMotor, i, -i);
-////            PololuQik_setM0Speed(uartMotor, i);
+// //            PololuQik_setM0Speed(uartMotor, i);
 //            Task_sleep(20);
 //        }
-//
+
 //        for (i = -127; i <= 0; i++) {
 //            PololuQik_setSpeeds(uartMotor, i, -i);
-////            PololuQik_setM0Speed(uartMotor, i);
+// //            PololuQik_setM0Speed(uartMotor, i);
 //            Task_sleep(20);
 //        }
 
@@ -171,22 +393,22 @@ void *motorThread(void *arg0)
 //            PololuQik_setM1Speed(uartMotor, i);
 //            Task_sleep(50);
 //        }
-//
+
 //        for (i = 127; i >= -127; i--) {
 //            PololuQik_setM1Speed(uartMotor, i);
 //            Task_sleep(50);
 //        }
-//
+
 //        for (i = -127; i <= 0; i++) {
 //            PololuQik_setM1Speed(motorUART, i);
 //            Task_sleep(50);
 //        }
-    }
+//     }
 
     return (NULL);
 }
 
-//void gpioButtonFxn0(unsigned int index)
+//void motor0_encoderAInt(unsigned int index)
 //{
 //    /* Clear the GPIO interrupt and toggle an LED */
 //

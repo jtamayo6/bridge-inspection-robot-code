@@ -316,14 +316,23 @@ GPIO_PinConfig gpioPinConfigs[] = {
     // P2_4 for SPI_B2 SS
     GPIOMSP432_P2_4 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_HIGH | GPIO_CFG_OUT_LOW,
 
-    //P2.6 for DRDY Interrupt Pin
+    // P2.6 for DRDY Interrupt Pin
     GPIOMSP432_P2_6 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_HIGH,
 
-    //P2.7 for INT1 Interrupt Pin
+    // P2.7 for INT1 Interrupt Pin
     GPIOMSP432_P2_7 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_HIGH,
 
-    //P5,6 for INT2 Interrupt Pin
+    // P5.6 for INT2 Interrupt Pin
     GPIOMSP432_P5_6 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_HIGH,
+
+    // P6.0 for Motor0 Encoder_A
+    GPIOMSP432_P6_0 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
+    // P6.1 for Motor0 Encoder_B
+    GPIOMSP432_P6_1 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
+    // P4.0 for Motor1 Encoder_A
+    GPIOMSP432_P4_0 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
+    // P4.2 for Motor1 Encoder_B
+    GPIOMSP432_P4_2 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
 
     /*
      * MSP_EXP432P401R_GPIO_LED_GREEN & MSP_EXP432P401R_GPIO_LED_BLUE are used for

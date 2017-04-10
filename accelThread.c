@@ -370,6 +370,7 @@ void *accelThread(void *arg0)
 
     /* Deinitialize SPI */
     SPI_close(masterSpi);
+    Timer_close(timer0);
 
     Display_printf(display, 0, 0, "Done\n");
     // Display_printf(display, 0, 0, "FIFO overflow: %d", errorCount);

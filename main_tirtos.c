@@ -62,6 +62,8 @@ extern void *xbeeThread(void *arg0);
 
 pthread_barrier_t barrier;
 sem_t semAccelData;   // Semaphore between accelerometer and SD card
+sem_t semMoveMotors;   // Semaphore between XBee and motors
+
 
 /* Stack size in bytes */
 #define THREADSTACKSIZE    1024
@@ -94,6 +96,10 @@ int main(void)
     retc = sem_init(&semAccelData, 0, 0);
     if (retc == -1) while (1);  // sem_init() failed
 
+    // Initialize semaphore for motor movement
+    retc = sem_init(&semMoveMotors, 0, 0);
+    if (retc == -1) while (1);  // sem_init() failed
+
 
     // Set priority and stack size attributes
     pthread_attr_init(&pAttrs);
@@ -113,13 +119,13 @@ int main(void)
     // Create SD card thread
     priParam.sched_priority = 1;
     pthread_attr_setschedparam(&pAttrs, &priParam);
-    retc = pthread_create(&thread, &pAttrs, sdCardThread, NULL);
+    // retc = pthread_create(&thread, &pAttrs, sdCardThread, NULL);
     if (retc != 0) while (1);  // pthread_create() failed
 
     // Create accelerometer thread
     priParam.sched_priority = 2;
     pthread_attr_setschedparam(&pAttrs, &priParam);
-    retc = pthread_create(&thread, &pAttrs, accelThread, NULL);
+    // retc = pthread_create(&thread, &pAttrs, accelThread, NULL);
     if (retc != 0) while (1);  // pthread_create() failed
 
     // Create motor controller thread
@@ -133,6 +139,7 @@ int main(void)
     pthread_attr_setschedparam(&pAttrs, &priParam);
     retc = pthread_create(&thread, &pAttrs, xbeeThread, NULL);
     if (retc != 0) while (1);  // pthread_create() failed
+
 
     display = Display_open(Display_Type_UART, NULL);
     if (display == NULL) while (1); // Failed to open display driver
