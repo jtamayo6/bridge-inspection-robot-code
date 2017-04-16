@@ -66,7 +66,7 @@ extern sem_t semAccelData;
 
 extern Display_Handle display;
 
-// Global so that sdCardThread can access
+// // Global so that sdCardThread can access
 int32_t accelDataBuffer0[ACCEL_DATA_BUF_COUNT];
 int32_t accelDataBuffer1[ACCEL_DATA_BUF_COUNT];
 
@@ -75,6 +75,7 @@ uint32_t errorCount = 0;
 // void fifoOver(uint_least8_t index) {
     // errorCount++;
 // }
+
 int time_ms = 0;
 
 void timerCallback(Timer_Handle myHandle)

@@ -49,6 +49,33 @@ extern "C" {
 #include <ti/drivers/UART.h>
 #include <ti/drivers/Watchdog.h>
 
+
+// Array size for accelerometer data buffers
+#define ACCEL_DATA_BUF_COUNT     1536    // 1536 = 3*512, since we want to write in 512 byte sectors to the SD card
+    
+// Extern variables declared here
+
+extern void *sdCardThread(void *arg0);
+extern void *accelThread(void *arg0);
+extern void *motorThread(void *arg0);
+extern void *xbeeThread(void *arg0);
+
+extern Display_Handle display;
+
+extern int32_t accelDataBuffer0[ACCEL_DATA_BUF_COUNT];
+extern int32_t accelDataBuffer1[ACCEL_DATA_BUF_COUNT];
+
+extern pthread_barrier_t barrier;
+extern sem_t semAccelData;
+extern sem_t semMoveMotors;
+
+extern int count0;
+extern int count1;
+extern int count0Copy;
+extern int count1Copy;
+extern bool keepMoving;
+
+
 #include "MSP_EXP432P401R.h"
 
 #define Board_initGeneral           MSP_EXP432P401R_initGeneral

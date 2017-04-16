@@ -75,6 +75,7 @@
 const char inputfile[] = "fat:"STR(DRIVE_NUM)":input.txt";
 // const char outputfile[] = "fat:"STR(DRIVE_NUM)":output.txt";
 const char outputfile[] = "fat:"STR(DRIVE_NUM)":dataOut.txt";
+// sprintf(outputfile, "fat:"STR(0)":dataOut%d.txt", x);
 
 const char textarray[] = \
 "***********************************************************************\n"
@@ -100,11 +101,11 @@ char fatfsPrefix[] = "fat";
 
 unsigned char cpy_buff[CPY_BUFF_SIZE + 1];
 
-extern int32_t accelDataBuffer0[ACCEL_DATA_BUF_COUNT];
-extern int32_t accelDataBuffer1[ACCEL_DATA_BUF_COUNT];
+// extern int32_t accelDataBuffer0[ACCEL_DATA_BUF_COUNT];
+// extern int32_t accelDataBuffer1[ACCEL_DATA_BUF_COUNT];
 
-extern pthread_barrier_t barrier;
-extern sem_t semAccelData;
+// extern pthread_barrier_t barrier;
+// extern sem_t semAccelData;
 
 /*
  *  ======== mainThread ========

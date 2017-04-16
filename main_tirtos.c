@@ -55,10 +55,10 @@
 
 Display_Handle display;
 
-extern void *sdCardThread(void *arg0);
-extern void *accelThread(void *arg0);
-extern void *motorThread(void *arg0);
-extern void *xbeeThread(void *arg0);
+// extern void *sdCardThread(void *arg0);
+// extern void *accelThread(void *arg0);
+// extern void *motorThread(void *arg0);
+// extern void *xbeeThread(void *arg0);
 
 pthread_barrier_t barrier;
 sem_t semAccelData;   // Semaphore between accelerometer and SD card
@@ -119,13 +119,13 @@ int main(void)
     // Create SD card thread
     priParam.sched_priority = 1;
     pthread_attr_setschedparam(&pAttrs, &priParam);
-    // retc = pthread_create(&thread, &pAttrs, sdCardThread, NULL);
+    retc = pthread_create(&thread, &pAttrs, sdCardThread, NULL);
     if (retc != 0) while (1);  // pthread_create() failed
 
     // Create accelerometer thread
     priParam.sched_priority = 2;
     pthread_attr_setschedparam(&pAttrs, &priParam);
-    // retc = pthread_create(&thread, &pAttrs, accelThread, NULL);
+    retc = pthread_create(&thread, &pAttrs, accelThread, NULL);
     if (retc != 0) while (1);  // pthread_create() failed
 
     // Create motor controller thread

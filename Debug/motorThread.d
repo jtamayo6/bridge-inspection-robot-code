@@ -3,8 +3,10 @@
 motorThread.obj: ../motorThread.c
 motorThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdint.h
 motorThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
-motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/pthread.h
-motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h
+motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/unistd.h
+motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/sys/types.h
+motorThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
+motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/std.h
 motorThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdarg.h
 motorThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
@@ -18,31 +20,20 @@ motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types__epilogue.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task__prologue.h
 motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/package/package.defs.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error__prologue.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Main.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Memory.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/package/Memory_HeapProxy.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IGateProvider.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
@@ -54,10 +45,19 @@ motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error__epilogue.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Memory.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__prologue.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Main.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/package/Memory_HeapProxy.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
+motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags__prologue.h
@@ -65,12 +65,6 @@ motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags__epilogue.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__epilogue.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log__prologue.h
@@ -85,11 +79,27 @@ motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log__epilogue.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__prologue.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Main.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__epilogue.h
 motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h
+motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
+motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task__prologue.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log.h
+motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
+motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/interfaces/ITaskSupport.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
@@ -126,18 +136,6 @@ motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/interfaces/ITaskSupport.h
 motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task__epilogue.h
-motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/package/Task_SupportProxy.h
-motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/sys/types.h
-motorThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
-motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h
-motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log.h
-motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h
-motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h
-motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h
 motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Clock.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Event.h
@@ -152,6 +150,9 @@ motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40
 motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h
 motorThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Event__epilogue.h
+motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/pthread.h
+motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h
+motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/package/Task_SupportProxy.h
 motorThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/time.h
 motorThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/../include/time.h
 motorThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/linkage.h
@@ -187,8 +188,10 @@ motorThread.obj: ../PololuQik.h
 ../motorThread.c: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdint.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/pthread.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/unistd.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/sys/types.h: 
+/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/std.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdarg.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
@@ -202,31 +205,20 @@ motorThread.obj: ../PololuQik.h
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types__epilogue.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task__prologue.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/package/package.defs.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error__prologue.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Main.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Memory.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/package/Memory_HeapProxy.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IGateProvider.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
@@ -238,10 +230,19 @@ motorThread.obj: ../PololuQik.h
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error__epilogue.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Memory.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__prologue.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Main.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/package/Memory_HeapProxy.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags__prologue.h: 
@@ -249,12 +250,6 @@ motorThread.obj: ../PololuQik.h
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags__epilogue.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__epilogue.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log__prologue.h: 
@@ -269,11 +264,27 @@ motorThread.obj: ../PololuQik.h
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log__epilogue.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__prologue.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Main.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__epilogue.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task__prologue.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/interfaces/ITaskSupport.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
@@ -310,18 +321,6 @@ motorThread.obj: ../PololuQik.h
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/interfaces/ITaskSupport.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task__epilogue.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/package/Task_SupportProxy.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/sys/types.h: 
-/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Clock.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Event.h: 
@@ -336,6 +335,9 @@ motorThread.obj: ../PololuQik.h
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Event__epilogue.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/pthread.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/package/Task_SupportProxy.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/time.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/../include/time.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/linkage.h: 

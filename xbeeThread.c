@@ -74,16 +74,17 @@ const char moveMotorsDoneDisplay[] = "Robot has moved 5000 ticks. Counts = ";
 /* Used to determine whether to have the thread block */
 volatile bool uartEnabled = true;
 // sem_t semConsole;
-extern pthread_barrier_t barrier;
 
-extern Display_Handle display;
+// extern pthread_barrier_t barrier;
 
-extern int count0;
-extern int count1;
-extern int count0Copy;
-extern int count1Copy;
-extern bool keepMoving;
-extern sem_t semMoveMotors;
+// extern Display_Handle display;
+
+// extern int count0;
+// extern int count1;
+// extern int count0Copy;
+// extern int count1Copy;
+// extern bool keepMoving;
+// extern sem_t semMoveMotors;
 
 UART_Handle uartXbee;
 char count0Str[16];
@@ -223,7 +224,7 @@ void *xbeeThread(void *arg0)
     Timer_Params params;
 
     Timer_Params_init(&params);
-    params.period = 200000;    // 200,000 us = 0.2 s
+    params.period = 100000;    // 100,000 us = 0.1 s
     params.periodUnits = Timer_PERIOD_US;
     params.timerMode = Timer_CONTINUOUS_CALLBACK;   // Timer_FREE_RUNNING;
     params.timerCallback = encoderTimerCallback;
@@ -356,7 +357,6 @@ void *xbeeThread(void *arg0)
             default:
                 UART_write(uartXbee, helpPrompt, sizeof(helpPrompt));
                 break;
-
 
         }
     }

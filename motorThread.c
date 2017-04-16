@@ -37,6 +37,7 @@
 /* XDCtools Header files */
 #include <stdint.h>
 #include <stddef.h>
+#include <unistd.h>
 
 /* POSIX Header files */
 #include <pthread.h>
@@ -55,12 +56,12 @@
 
 #define TASKSTACKSIZE     768
 
-extern Display_Handle display;
+// extern Display_Handle display;
 
 pthread_mutex_t encoderCount0Mutex;
 pthread_mutex_t encoderCount1Mutex;
 
-extern sem_t semMoveMotors;
+// extern sem_t semMoveMotors;
 
 int32_t encoderCount = 0;
 
@@ -117,6 +118,7 @@ int count1 = 0;
 int count0Copy = 0;
 int count1Copy = 0;
 bool keepMoving = true;
+int moveDist = 1000;
 
 uint8_t triggeredVal0;
 uint8_t otherVal0;
@@ -140,7 +142,7 @@ void motor0_encoderAInt(uint_least8_t index)
     // GPIO_write(Board_GPIO_LED0, (/*triggeredVal &*/ direction0));
     // pthread_mutex_unlock(&encoderCount0Mutex);
 
-    if (count0 >= 5000) keepMoving = false;
+    if (count0 >= moveDist) keepMoving = false;
 
     // GPIO_write(Board_GPIO_LED0, otherVal0);
 
@@ -163,7 +165,7 @@ void motor0_encoderBInt(uint_least8_t index)
     // GPIO_write(Board_GPIO_LED0, (/*triggeredVal &*/ direction0));
     // pthread_mutex_unlock(&encoderCount0Mutex);
 
-    if (count0 >= 5000) keepMoving = false;
+    if (count0 >= moveDist) keepMoving = false;
 
     // GPIO_write(Board_GPIO_LED1, otherVal0);
 
@@ -186,7 +188,7 @@ void motor1_encoderAInt(uint_least8_t index)
 
     otherVal1 ? count1-- : count1++;
 
-    if (count1 >= 5000) keepMoving = false;
+    if (count1 >= moveDist) keepMoving = false;
 }
 
 void motor1_encoderBInt(uint_least8_t index)
@@ -200,7 +202,7 @@ void motor1_encoderBInt(uint_least8_t index)
 
     otherVal1 ? count1++ : count1--;
 
-    if (count1 >= 5000) keepMoving = false;
+    if (count1 >= moveDist) keepMoving = false;
 }
 
 // void encoderTimerCallback(Timer_Handle myHandle)
@@ -228,16 +230,27 @@ void motor1_encoderBInt(uint_least8_t index)
 
 // }
 
+
 /*
  *  ======== echoFxn ========
  *  Task for this function is created statically. See the project's .cfg file.
  */
+UART_Handle uartMotor;
+UART_Params uartParams;
+
+int motor0Speed = 64;
+int motor1Speed = 64;
+
+void stopMotors(uint_least8_t index) {
+    motor0Speed = 0;
+    motor1Speed = 0;
+}
+
 void *motorThread(void *arg0)
 {
     char input;
-    UART_Handle uartMotor;
-    UART_Params uartParams;
-    // const char echoPrompt[] = "\fEchoing characters:\r\n";
+    // UART_Handle uartMotor;
+    // UART_Params uartParams;
     int retc;
 
     /* Create a UART with data processing off. */
@@ -276,6 +289,9 @@ void *motorThread(void *arg0)
     GPIO_setCallback(10, motor1_encoderAInt);
     GPIO_setCallback(11, motor1_encoderBInt);
 
+    GPIO_setCallback(5, stopMotors);
+    GPIO_enableInt(5);
+
 
     /* Enable interrupts */
     GPIO_enableInt(8);
@@ -288,33 +304,40 @@ void *motorThread(void *arg0)
     //    UART_write(uartMotor, echoPrompt, sizeof(echoPrompt));
     //    System_printf("Serial starting\n" );
 
-    /* Loop forever echoing */
-//    while (1) {
-//        UART_read(uartMotor, &input, 1);
-//        UART_write(uartMotor, &input, 1);
-//    }
-
     
     // PololuQik_setSpeeds(uartMotor, 64, 64);
     // Task_sleep(5000);
     // PololuQik_setSpeeds(uartMotor, 0, 0);
 
+//    while(1) {
+//        Display_printf(display, 0, 0, "fuckCounter = %d", fuckCounters);
+//        usleep(100000);
+//    }
+
     while (1) {
         count0 = 0;
         count1 = 0;
+        count0Copy = 0;
+        count1Copy = 0;
         keepMoving = true;
         retc = sem_wait(&semMoveMotors);
         if (retc == -1) while (1);
 
-        // if (Timer_start(timer1) == Timer_STATUS_ERROR) while (1); // Failed to start timer
+        if (Timer_start(timer1) == Timer_STATUS_ERROR) while (1); // Failed to start timer
         int motor0Speed = 64;
         int motor1Speed = 64;
         PololuQik_setSpeeds(uartMotor, motor0Speed, -motor1Speed);
 
-        // while (keepMoving);
+       GPIO_enableInt(5);
+
+        // while (keepMoving) {
+        //     PololuQik_setSpeeds(uartMotor, motor0Speed, -motor1Speed);
+        //     usleep(100000);
+        // }
+
         int error;
-        while (keepMoving) {
-            error = (count0Copy - count1Copy)/8/2;
+        while (keepMoving); {
+            error = (count0Copy - count1Copy)/32/2;
             // if (error > 0) {
                 motor0Speed -= error;
                 if (motor0Speed > 127) {
@@ -368,42 +391,6 @@ void *motorThread(void *arg0)
         // Display_printf(display, 0, 0, "time = %d s", encoderCount);
         // sleep(1);
     }
-
-    // int i;
-//    while (1) {
-//        for (i = 0; i <= 127; i++) {
-//            PololuQik_setSpeeds(uartMotor, i, -i);
-// //            PololuQik_setM0Speed(uartMotor, i);
-//            Task_sleep(20);
-//        }
-
-//        for (i = 127; i >= -127; i--) {
-//            PololuQik_setSpeeds(uartMotor, i, -i);
-// //            PololuQik_setM0Speed(uartMotor, i);
-//            Task_sleep(20);
-//        }
-
-//        for (i = -127; i <= 0; i++) {
-//            PololuQik_setSpeeds(uartMotor, i, -i);
-// //            PololuQik_setM0Speed(uartMotor, i);
-//            Task_sleep(20);
-//        }
-
-//        for (i = 0; i <= 127; i++) {
-//            PololuQik_setM1Speed(uartMotor, i);
-//            Task_sleep(50);
-//        }
-
-//        for (i = 127; i >= -127; i--) {
-//            PololuQik_setM1Speed(uartMotor, i);
-//            Task_sleep(50);
-//        }
-
-//        for (i = -127; i <= 0; i++) {
-//            PololuQik_setM1Speed(motorUART, i);
-//            Task_sleep(50);
-//        }
-//     }
 
     return (NULL);
 }
