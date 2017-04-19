@@ -61,7 +61,8 @@ Display_Handle display;
 // extern void *xbeeThread(void *arg0);
 
 pthread_barrier_t barrier;
-sem_t semAccelData;   // Semaphore between accelerometer and SD card
+sem_t semFullAccelBuffer;   // Semaphore between accelerometer and SD card, for full buffer
+sem_t semAccelData;   // Semaphore between accelerometer and SD card, for allowing SD card writes
 sem_t semMoveMotors;   // Semaphore between XBee and motors
 
 
@@ -84,13 +85,21 @@ int main(void)
 
     GPIO_init();
     Display_init();
+    PWM_init();
     SPI_init();
     SDSPI_init();
     Timer_init();
     UART_init();
 
+    display = Display_open(Display_Type_UART, NULL);
+    if (display == NULL) while (1); // Failed to open display driver
+
     // Initialize barrier to sync XBee, accelerometer, and SD card threads
     pthread_barrier_init(&barrier, NULL, 3);
+
+        // Initialize semaphore for changing to a filled accelerometer data buffer
+    retc = sem_init(&semFullAccelBuffer, 0, 0);
+    if (retc == -1) while (1);  // sem_init() failed
 
     // Initialize semaphore for accelerometer data
     retc = sem_init(&semAccelData, 0, 0);
@@ -116,33 +125,36 @@ int main(void)
 
     /* Create threads */
 
-    // Create SD card thread
+    // Create motor controller thread
     priParam.sched_priority = 1;
+    pthread_attr_setschedparam(&pAttrs, &priParam);
+    retc = pthread_create(&thread, &pAttrs, motorThread, NULL);
+    if (retc != 0) while (1);  // pthread_create() failed
+
+    // Create GPS thread
+    priParam.sched_priority = 2;
+    pthread_attr_setschedparam(&pAttrs, &priParam);
+    // retc = pthread_create(&thread, &pAttrs, gpsThread, NULL);
+    if (retc != 0) while (1);  // pthread_create() failed
+
+
+    // Create SD card thread
+    priParam.sched_priority = 3;
     pthread_attr_setschedparam(&pAttrs, &priParam);
     retc = pthread_create(&thread, &pAttrs, sdCardThread, NULL);
     if (retc != 0) while (1);  // pthread_create() failed
 
     // Create accelerometer thread
-    priParam.sched_priority = 2;
+    priParam.sched_priority = 4;
     pthread_attr_setschedparam(&pAttrs, &priParam);
     retc = pthread_create(&thread, &pAttrs, accelThread, NULL);
     if (retc != 0) while (1);  // pthread_create() failed
 
-    // Create motor controller thread
-    priParam.sched_priority = 3;
-    pthread_attr_setschedparam(&pAttrs, &priParam);
-    retc = pthread_create(&thread, &pAttrs, motorThread, NULL);
-    if (retc != 0) while (1);  // pthread_create() failed
-
     // Create XBee thread
-    priParam.sched_priority = 4;
+    priParam.sched_priority = 5;
     pthread_attr_setschedparam(&pAttrs, &priParam);
     retc = pthread_create(&thread, &pAttrs, xbeeThread, NULL);
     if (retc != 0) while (1);  // pthread_create() failed
-
-
-    display = Display_open(Display_Type_UART, NULL);
-    if (display == NULL) while (1); // Failed to open display driver
 
     BIOS_start();
 

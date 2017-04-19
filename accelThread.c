@@ -35,10 +35,11 @@
  */
 #include <stdint.h>
 #include <stddef.h>
+#include <unistd.h>
 
 /* POSIX Header files */
-#include <pthread.h>
-#include <semaphore.h>
+// #include <pthread.h>
+// #include <semaphore.h>
 
 /* Driver Header files */
 // #include <ti/drivers/GPIO.h>
@@ -61,10 +62,10 @@
 // Watermark for reading n samples from accelerometer at a time
 #define ACCEL_WATERMARK_SAMPLES 24
 
-extern pthread_barrier_t barrier;
-extern sem_t semAccelData;
+// extern pthread_barrier_t barrier;
+// extern sem_t semAccelData;
 
-extern Display_Handle display;
+// extern Display_Handle display;
 
 // // Global so that sdCardThread can access
 int32_t accelDataBuffer0[ACCEL_DATA_BUF_COUNT];
@@ -115,15 +116,15 @@ void *accelThread(void *arg0)
     /* Initialize timer for accelerometer */
 
     Timer_Handle timer0;
-    Timer_Params params;
+    Timer_Params timerParams;
 
-    Timer_Params_init(&params);
-    params.period = 1000;    // 1000 us = 1 ms
-    params.periodUnits = Timer_PERIOD_US;
-    params.timerMode = Timer_CONTINUOUS_CALLBACK;   // Timer_FREE_RUNNING;
-    params.timerCallback = timerCallback;
+    Timer_Params_init(&timerParams);
+    timerParams.period = 1000;    // 1000 us = 1 ms
+    timerParams.periodUnits = Timer_PERIOD_US;
+    timerParams.timerMode = Timer_CONTINUOUS_CALLBACK;   // Timer_FREE_RUNNING;
+    timerParams.timerCallback = timerCallback;
 
-    timer0 = Timer_open(Board_TIMER0, &params);
+    timer0 = Timer_open(Board_TIMER0, &timerParams);
     if (timer0 == NULL) while (1);   // Failed to initialized timer
 
 
@@ -165,17 +166,17 @@ void *accelThread(void *arg0)
     GPIO_write(4, 1);
 
     // Set calibrated offsets
-    masterTransaction.count = 7;
-    accelTxBuffer[0] = (0x1E << 1);
-    accelTxBuffer[1] = 0xFE;
-    accelTxBuffer[2] = 0x1D;
-    accelTxBuffer[3] = 0xFF;
-    accelTxBuffer[4] = 0x69;
-    accelTxBuffer[5] = 0xBF;
-    accelTxBuffer[6] = 0xFC;
-    GPIO_write(4, 0);
-    transferOK = SPI_transfer(masterSpi, &masterTransaction);
-    GPIO_write(4, 1);
+    // masterTransaction.count = 7;
+    // accelTxBuffer[0] = (0x1E << 1);
+    // accelTxBuffer[1] = 0xFE;
+    // accelTxBuffer[2] = 0x1D;
+    // accelTxBuffer[3] = 0xFF;
+    // accelTxBuffer[4] = 0x69;
+    // accelTxBuffer[5] = 0xBF;
+    // accelTxBuffer[6] = 0xFC;
+    // GPIO_write(4, 0);
+    // transferOK = SPI_transfer(masterSpi, &masterTransaction);
+    // GPIO_write(4, 1);
 
     // Clear accelTxBuffer
     for (i=0; i<7; i++) {
@@ -189,6 +190,27 @@ void *accelThread(void *arg0)
     fifoOverTransaction.txBuf = (void *)fifoOverTxBuffer;
     fifoOverTransaction.rxBuf = (void *)fifoOverRxBuffer;
 
+    // PWM_Handle pwm;
+    // PWM_Params pwmParams;
+    // PWM_Params_init(&pwmParams);
+
+    // pwmParams.dutyUnits = PWM_DUTY_US;
+    // pwmParams.dutyValue = 1000;
+    // pwmParams.periodUnits = PWM_PERIOD_US;
+    // pwmParams.periodValue = 20000;
+    // pwm = PWM_open(Board_PWM0, &pwmParams);
+    // if (pwm == NULL) while (1);    // Failed to open linear actuator
+
+    // PWM_start(pwm);
+    // PWM_setDuty(pwm, 1000);
+
+    // retc = sem_wait(&semAccelData);
+    // // pthread_barrier_wait(&barrier); // Barrier until SD card is ready
+
+    // PWM_setDuty(pwm, 1650);
+
+    // sleep(6);
+
     pthread_barrier_wait(&barrier); // Barrier until SD card is ready
 
     // Set accel to measurement mode
@@ -198,40 +220,41 @@ void *accelThread(void *arg0)
     transferOK = SPI_transfer(masterSpi, &masterTransaction);
     GPIO_write(4, 1);
 
-    if (GPIO_read(7)) {
-        GPIO_write(4, 0);
-        transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
-        GPIO_write(4, 1);
-        errorCount++;
-    }
+    // if (GPIO_read(7)) {
+    //     GPIO_write(4, 0);
+    //     transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
+    //     GPIO_write(4, 1);
+    //     errorCount++;
+    //     Display_printf(display, 0, 0, "start err");
+    // }
+
+    if (Timer_start(timer0) == Timer_STATUS_ERROR) while (1); // Failed to start timer
 
     masterTransaction.count = 10;
     accelTxBuffer[0] = (0x11 << 1) | 1;
     accelTxBuffer[1] = 0x00;
-
-    if (Timer_start(timer0) == Timer_STATUS_ERROR) while (1); // Failed to start timer
-
 
     /* Accelerometer data capture */
 
     for (bufNum=0; bufNum<10; bufNum++) {
         if (!(bufNum%2)) {
             for (i=0; i<ACCEL_DATA_BUF_COUNT; i+=ACCEL_WATERMARK_SAMPLES) {
-                // if (GPIO_read(7)) {
-                //     GPIO_write(4, 0);
-                //     transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
-                //     GPIO_write(4, 1);
-                //     errorCount++;
-                // }
+                if (GPIO_read(7)) {
+                    GPIO_write(4, 0);
+                    transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
+                    GPIO_write(4, 1);
+                    errorCount++;
+                    Display_printf(display, 0, 0, "err, i = %d", i);
+                }
                 while (!GPIO_read(6));
                 for (j=i; j<i+ACCEL_WATERMARK_SAMPLES; j+=3) {
                     GPIO_write(4, 0);
                     transferOK = SPI_transfer(masterSpi, &masterTransaction);
                     GPIO_write(4, 1);
-                    if (!(accelRxBuffer[3] & 0x01)) {
-                        // GPIO_toggle(Board_GPIO_LED0);
-                        errorCount++;
-                    }
+                    // if (!(accelRxBuffer[3] & 0x01)) {
+                    //     // GPIO_toggle(Board_GPIO_LED0);
+                    //     errorCount++;
+                    // }
                     accelDataBuffer0[j] = ((accelRxBuffer[1] << 24)
                                          | (accelRxBuffer[2] << 16)
                                          | (accelRxBuffer[3] << 8)) >> 12;
@@ -242,6 +265,12 @@ void *accelThread(void *arg0)
                                            | (accelRxBuffer[8] << 16)
                                            | (accelRxBuffer[9] << 8)) >> 12;
                 }
+                if (bufNum != 0 && !(i%96)) {
+                    // sched_yield();
+                    sem_post(&semAccelData);
+                    sem_wait(&semAccelData);
+                }
+
                 // GPIO_write(4, 0);
                 // transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
                 // GPIO_write(4, 1);
@@ -256,21 +285,22 @@ void *accelThread(void *arg0)
             //     GPIO_toggle(Board_GPIO_LED0);
             // }
             for (i=0; i<ACCEL_DATA_BUF_COUNT; i+=ACCEL_WATERMARK_SAMPLES) {
-                // if (GPIO_read(7)) {
-                //     GPIO_write(4, 0);
-                //     transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
-                //     GPIO_write(4, 1);
-                //     errorCount++;
-                // }
+                if (GPIO_read(7)) {
+                    GPIO_write(4, 0);
+                    transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
+                    GPIO_write(4, 1);
+                    errorCount++;
+                    Display_printf(display, 0, 0, "err");
+                }
                 while (!GPIO_read(6));
                 for (j=i; j<i+ACCEL_WATERMARK_SAMPLES; j+=3) {
                     GPIO_write(4, 0);
                     transferOK = SPI_transfer(masterSpi, &masterTransaction);
                     GPIO_write(4, 1);
-                    if (!(accelRxBuffer[3] & 0x01)) {
-                        // GPIO_toggle(Board_GPIO_LED0);
-                        errorCount++;
-                    }
+                    // if (!(accelRxBuffer[3] & 0x01)) {
+                    //     // GPIO_toggle(Board_GPIO_LED0);
+                    //     errorCount++;
+                    // }
                     accelDataBuffer1[j] = ((accelRxBuffer[1] << 24)
                                          | (accelRxBuffer[2] << 16)
                                          | (accelRxBuffer[3] << 8)) >> 12;
@@ -281,6 +311,12 @@ void *accelThread(void *arg0)
                                            | (accelRxBuffer[8] << 16)
                                            | (accelRxBuffer[9] << 8)) >> 12;
                 }
+                if (!(i%96)) {
+                    // sched_yield();
+                    sem_post(&semAccelData);
+                    sem_wait(&semAccelData);
+                }
+
 //                 GPIO_write(4, 0);
 //                 transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
 //                 GPIO_write(4, 1);
@@ -318,10 +354,10 @@ void *accelThread(void *arg0)
 //                 }
 //             }
         }
-        // Display_printf(display, 0, 0, "Buffer %d filled", (bufNum%2));
+        Display_printf(display, 0, 0, "Buffer %d filled", (bufNum%2));
         // timervals[timerval_count++] = Timer_getCount(timer0);
 
-        retc = sem_post(&semAccelData);
+        retc = sem_post(&semFullAccelBuffer);
         if (retc == -1) while (1);
     }
 
@@ -368,6 +404,9 @@ void *accelThread(void *arg0)
     Display_printf(display, 0, 0, "\nRunning time = %d ms\n", time_ms);
 
     pthread_barrier_wait(&barrier);
+
+    // PWM_setDuty(pwm, 1000);
+    // sleep(6);
 
     /* Deinitialize SPI */
     SPI_close(masterSpi);

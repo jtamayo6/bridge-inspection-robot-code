@@ -10,9 +10,11 @@ GEN_CMDS += /Users/justin/Documents/TI_CCS_Workspace/tirtos_builds_MSP_EXP432P40
 GEN_CMDS__FLAG := -l"/Users/justin/Documents/TI_CCS_Workspace/tirtos_builds_MSP_EXP432P401R_release_ccs/Debug/configPkg/linker.cmd"
 
 ORDERED_OBJS += \
+"./Adafruit_GPS.obj" \
 "./MSP_EXP432P401R.obj" \
 "./PololuQik.obj" \
 "./accelThread.obj" \
+"./gpsThread.obj" \
 "./main_tirtos.obj" \
 "./motorThread.obj" \
 "./sdCardThread.obj" \
@@ -167,8 +169,8 @@ Bridge_Inspection_Robot.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "MSP_EXP432P401R.obj" "PololuQik.obj" "accelThread.obj" "main_tirtos.obj" "motorThread.obj" "sdCardThread.obj" "xbeeThread.obj" 
-	-$(RM) "MSP_EXP432P401R.d" "PololuQik.d" "accelThread.d" "main_tirtos.d" "motorThread.d" "sdCardThread.d" "xbeeThread.d" 
+	-$(RM) "Adafruit_GPS.obj" "MSP_EXP432P401R.obj" "PololuQik.obj" "accelThread.obj" "gpsThread.obj" "main_tirtos.obj" "motorThread.obj" "sdCardThread.obj" "xbeeThread.obj" 
+	-$(RM) "Adafruit_GPS.d" "MSP_EXP432P401R.d" "PololuQik.d" "accelThread.d" "gpsThread.d" "main_tirtos.d" "motorThread.d" "sdCardThread.d" "xbeeThread.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

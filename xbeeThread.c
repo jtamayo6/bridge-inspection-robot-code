@@ -68,7 +68,7 @@ const char newLineDisplay[] = "\r\n";
 const char recordAccelDisplay[] = "Reading the accelerometer for 5 seconds...\r\n";
 const char recordAccelDoneDisplay[] = "Accelerometer reading complete\r\n";
 
-const char moveMotorsDisplay[] = "Encoder counts for Motor 0 and 1: ";
+const char moveMotorsDisplay[] = "Encoder counts for Motor 1 and 0: ";
 const char moveMotorsDoneDisplay[] = "Robot has moved 5000 ticks. Counts = ";
 
 /* Used to determine whether to have the thread block */
@@ -89,6 +89,11 @@ volatile bool uartEnabled = true;
 UART_Handle uartXbee;
 char count0Str[16];
 char count1Str[16];
+
+extern int motor0Speed;
+extern int motor1Speed;
+char motor0Str[16];
+char motor1Str[16];
 sem_t semPrintMotorEncoders;
 // bool semPrintMotorEncoders = true;
 
@@ -109,6 +114,8 @@ void encoderTimerCallback(Timer_Handle myHandle)
 
     itoa(count0Copy, count0Str);
     itoa(count1Copy, count1Str);
+    itoa(motor0Speed, motor0Str);
+    itoa(motor1Speed, motor1Str);
     sem_post(&semPrintMotorEncoders);
     sem_post(&semMoveMotors);
     // semPrintMotorEncoders = true;
@@ -224,7 +231,7 @@ void *xbeeThread(void *arg0)
     Timer_Params params;
 
     Timer_Params_init(&params);
-    params.period = 100000;    // 100,000 us = 0.1 s
+    params.period = 100000;     // 100,000 us = 0.1 s
     params.periodUnits = Timer_PERIOD_US;
     params.timerMode = Timer_CONTINUOUS_CALLBACK;   // Timer_FREE_RUNNING;
     params.timerCallback = encoderTimerCallback;
@@ -269,7 +276,11 @@ void *xbeeThread(void *arg0)
 
         switch (cmd) {
             case 'r':
+                // retc = sem_post(&semAccelData);
+                // if (retc == -1) while (1);
+
                 pthread_barrier_wait(&barrier);
+                
                 UART_write(uartXbee, recordAccelDisplay, sizeof(recordAccelDisplay));
 
                 pthread_barrier_wait(&barrier);
@@ -327,10 +338,17 @@ void *xbeeThread(void *arg0)
                 while (keepMoving) {
                     // itoa(count0Copy, tempStr);
                     UART_write(uartXbee, moveMotorsDisplay, sizeof(moveMotorsDisplay));
-                    UART_write(uartXbee, count0Str, strlen(count0Str));
-                    UART_write(uartXbee, spaceDisplay, sizeof(spaceDisplay));
                     UART_write(uartXbee, count1Str, strlen(count1Str));
+                    UART_write(uartXbee, spaceDisplay, sizeof(spaceDisplay));
+                    UART_write(uartXbee, count0Str, strlen(count0Str));
+                    // UART_write(uartXbee, newLineDisplay, sizeof(newLineDisplay));
+
+                    UART_write(uartXbee, spaceDisplay, sizeof(spaceDisplay));
+                    UART_write(uartXbee, motor1Str, strlen(motor1Str));
+                    UART_write(uartXbee, spaceDisplay, sizeof(spaceDisplay));
+                    UART_write(uartXbee, motor0Str, strlen(motor0Str));
                     UART_write(uartXbee, newLineDisplay, sizeof(newLineDisplay));
+
                     // usleep(200000);
                     sem_wait(&semPrintMotorEncoders);
                     // semPrintMotorEncoders = false;

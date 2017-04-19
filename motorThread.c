@@ -118,7 +118,7 @@ int count1 = 0;
 int count0Copy = 0;
 int count1Copy = 0;
 bool keepMoving = true;
-int moveDist = 1000;
+int moveDist = 8000;
 
 uint8_t triggeredVal0;
 uint8_t otherVal0;
@@ -290,7 +290,7 @@ void *motorThread(void *arg0)
     GPIO_setCallback(11, motor1_encoderBInt);
 
     GPIO_setCallback(5, stopMotors);
-    GPIO_enableInt(5);
+//    GPIO_enableInt(5);
 
 
     /* Enable interrupts */
@@ -309,11 +309,6 @@ void *motorThread(void *arg0)
     // Task_sleep(5000);
     // PololuQik_setSpeeds(uartMotor, 0, 0);
 
-//    while(1) {
-//        Display_printf(display, 0, 0, "fuckCounter = %d", fuckCounters);
-//        usleep(100000);
-//    }
-
     while (1) {
         count0 = 0;
         count1 = 0;
@@ -323,12 +318,13 @@ void *motorThread(void *arg0)
         retc = sem_wait(&semMoveMotors);
         if (retc == -1) while (1);
 
-        if (Timer_start(timer1) == Timer_STATUS_ERROR) while (1); // Failed to start timer
-        int motor0Speed = 64;
-        int motor1Speed = 64;
+//        if (Timer_start(timer1) == Timer_STATUS_ERROR) while (1); // Failed to start timer
+
+        // int motor0Speed = 48;
+        // int motor1Speed = 48;
         PololuQik_setSpeeds(uartMotor, motor0Speed, -motor1Speed);
 
-       GPIO_enableInt(5);
+//       GPIO_enableInt(5);
 
         // while (keepMoving) {
         //     PololuQik_setSpeeds(uartMotor, motor0Speed, -motor1Speed);
@@ -336,22 +332,38 @@ void *motorThread(void *arg0)
         // }
 
         int error;
-        while (keepMoving); {
-            error = (count0Copy - count1Copy)/32/2;
-            // if (error > 0) {
-                motor0Speed -= error;
-                if (motor0Speed > 127) {
-                    motor0Speed = 127;
-                } else if (motor0Speed < -127) {
-                    motor0Speed = -127;
-                }
+        while (keepMoving) {
 
-                motor1Speed += error;
-                if (motor1Speed > 127) {
-                    motor1Speed = 127;
-                } else if (motor1Speed < -127) {
-                    motor1Speed = -127;
+            error = count1Copy - count0Copy;
+            // if (error > 100) {
+            //     error = 100;
+            // } else if (error < -100) {
+            //     error = -100;
+            // }
+            // error /= 50;
+            if (error > 0) {
+                // motor0Speed -= error;
+                motor0Speed = 64 + error/3;
+                motor1Speed = 64;
+                if (motor0Speed > 90) {
+                    motor0Speed = 90;
                 }
+                // } else if (motor0Speed < 43) {
+                //     motor0Speed = 43;
+                // }
+            } else {
+                // motor1Speed += error;
+                motor0Speed = 64;
+                motor1Speed = 64 - error/3;
+                if (motor1Speed > 90) {
+                motor1Speed = 90;
+                }
+                // if (motor1Speed > 53) {
+                //     motor1Speed = 53;
+                // } else if (motor1Speed < 43) {
+                //     motor1Speed = 43;
+                // }
+            }
             // } else {
             //     motor0Speed += error;
             //     if (motor0Speed > 127) {
@@ -386,7 +398,7 @@ void *motorThread(void *arg0)
         // count0Copy = count0;
         // pthread_mutex_unlock(&encoderCount0Mutex);
 
-        Display_printf(display, 0, 0, "Final motors count = %d %d", count0, count1);
+        Display_printf(display, 0, 0, "Final motors count = %d %d", count1, count0);
         // encoderCount++;
         // Display_printf(display, 0, 0, "time = %d s", encoderCount);
         // sleep(1);

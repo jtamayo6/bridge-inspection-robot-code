@@ -3,8 +3,10 @@
 accelThread.obj: ../accelThread.c
 accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdint.h
 accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/pthread.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/unistd.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/sys/types.h
+accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/std.h
 accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdarg.h
 accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
@@ -18,31 +20,20 @@ accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types__epilogue.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task__prologue.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/package/package.defs.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error__prologue.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Main.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Memory.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/package/Memory_HeapProxy.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IGateProvider.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
@@ -54,10 +45,19 @@ accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error__epilogue.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Memory.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__prologue.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Main.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/package/Memory_HeapProxy.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags__prologue.h
@@ -65,12 +65,6 @@ accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags__epilogue.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__epilogue.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log__prologue.h
@@ -85,11 +79,27 @@ accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log__epilogue.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__prologue.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Main.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__epilogue.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task__prologue.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log.h
+accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/interfaces/ITaskSupport.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
@@ -126,18 +136,6 @@ accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/interfaces/ITaskSupport.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task__epilogue.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/package/Task_SupportProxy.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/sys/types.h
-accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log.h
-accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Clock.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Event.h
@@ -152,16 +150,6 @@ accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h
 accelThread.obj: /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Event__epilogue.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/time.h
-accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/../include/time.h
-accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/linkage.h
-accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/abi_prefix.h
-accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/signal.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/sched.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/semaphore.h
-accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h
 accelThread.obj: ../Board.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/ADC.h
 accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdbool.h
@@ -181,13 +169,28 @@ accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/UART.h
 accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
 accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Watchdog.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/pthread.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/package/Task_SupportProxy.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/time.h
+accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/../include/time.h
+accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/linkage.h
+accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/abi_prefix.h
+accelThread.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/signal.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/sched.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/semaphore.h
+accelThread.obj: /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h
 accelThread.obj: ../MSP_EXP432P401R.h
 
 ../accelThread.c: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdint.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/pthread.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/unistd.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/sys/types.h: 
+/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/std.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdarg.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
@@ -201,31 +204,20 @@ accelThread.obj: ../MSP_EXP432P401R.h
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types__epilogue.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task__prologue.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/package/package.defs.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error__prologue.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Main.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Memory.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/package/Memory_HeapProxy.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IGateProvider.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
@@ -237,10 +229,19 @@ accelThread.obj: ../MSP_EXP432P401R.h
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error__epilogue.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Memory.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__prologue.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Main.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/package/Memory_HeapProxy.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags__prologue.h: 
@@ -248,12 +249,6 @@ accelThread.obj: ../MSP_EXP432P401R.h
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags__epilogue.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__epilogue.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log__prologue.h: 
@@ -268,11 +263,27 @@ accelThread.obj: ../MSP_EXP432P401R.h
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log__epilogue.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__prologue.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Main.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert__epilogue.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task__prologue.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Error.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log.h: 
+/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IHeap.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/interfaces/ITaskSupport.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
@@ -309,18 +320,6 @@ accelThread.obj: ../MSP_EXP432P401R.h
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/interfaces/ITaskSupport.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task__epilogue.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/package/Task_SupportProxy.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/sys/types.h: 
-/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Types.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IInstance.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Diags.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Log.h: 
-/Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/Assert.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Queue.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Clock.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Event.h: 
@@ -335,16 +334,6 @@ accelThread.obj: ../MSP_EXP432P401R.h
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
 /Applications/ti/xdctools_3_50_01_12_core/packages/xdc/runtime/IModule.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Event__epilogue.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/time.h: 
-/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/../include/time.h: 
-/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/linkage.h: 
-/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/abi_prefix.h: 
-/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/signal.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/sched.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/semaphore.h: 
-/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h: 
 ../Board.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/ADC.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stdbool.h: 
@@ -364,4 +353,17 @@ accelThread.obj: ../MSP_EXP432P401R.h
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/UART.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
 /Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/source/ti/drivers/Watchdog.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/pthread.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/package/Task_SupportProxy.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/time.h: 
+/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/../include/time.h: 
+/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/linkage.h: 
+/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/abi_prefix.h: 
+/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.1.LTS/include/stddef.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/signal.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/sched.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/posix/semaphore.h: 
+/Users/justin/ti/tirex-content/simplelink_msp432_sdk_1_30_00_40/kernel/tirtos/packages/ti/sysbios/knl/Semaphore.h: 
 ../MSP_EXP432P401R.h: 
