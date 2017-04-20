@@ -31,7 +31,7 @@
  */
 
 /*
- *  ======== fatsd.c ========
+ *  ======== sdCardThread.c ========
  */
 #include <stdint.h>
 #include <stdio.h>
@@ -72,22 +72,23 @@
 // 1536 = 3*512, since we want to write in 512 byte sectors to the SD card
 // #define ACCEL_DATA_BUF_COUNT     1536
 
-const char inputfile[] = "fat:"STR(DRIVE_NUM)":input.txt";
+// const char inputfile[] = "fat:"STR(DRIVE_NUM)":input.txt";
 // const char outputfile[] = "fat:"STR(DRIVE_NUM)":output.txt";
-const char outputfile[] = "fat:"STR(DRIVE_NUM)":dataOut.txt";
-// sprintf(outputfile, "fat:"STR(0)":dataOut%d.txt", x);
+// const char outputfile[] = "fat:"STR(DRIVE_NUM)":dataOut.txt";
+char outputfile[20];
+int recordNum = 0;
 
-const char textarray[] = \
-"***********************************************************************\n"
-"0         1         2         3         4         5         6         7\n"
-"01234567890123456789012345678901234567890123456789012345678901234567890\n"
-"This is some text to be inserted into the inputfile if there isn't\n"
-"already an existing file located on the media.\n"
-"If an inputfile already exists, or if the file was already once\n"
-"generated, then the inputfile will NOT be modified.\n"
-"***********************************************************************\n";
+// const char textarray[] = \
+// "***********************************************************************\n"
+// "0         1         2         3         4         5         6         7\n"
+// "01234567890123456789012345678901234567890123456789012345678901234567890\n"
+// "This is some text to be inserted into the inputfile if there isn't\n"
+// "already an existing file located on the media.\n"
+// "If an inputfile already exists, or if the file was already once\n"
+// "generated, then the inputfile will NOT be modified.\n"
+// "***********************************************************************\n";
 
-extern Display_Handle display;
+// extern Display_Handle display;
 
 /* Set this to the current UNIX time in seconds */
 const struct timespec ts =
@@ -99,45 +100,33 @@ const struct timespec ts =
 /* File name prefix for this filesystem for use with TI C RTS */
 char fatfsPrefix[] = "fat";
 
-unsigned char cpy_buff[CPY_BUFF_SIZE + 1];
+// unsigned char cpy_buff[CPY_BUFF_SIZE + 1];
+int32_t cpy_buff[3];
 
 // extern int32_t accelDataBuffer0[ACCEL_DATA_BUF_COUNT];
 // extern int32_t accelDataBuffer1[ACCEL_DATA_BUF_COUNT];
 
-// extern pthread_barrier_t barrier;
+// extern pthread_barrier_t accelDataBarrier;
 // extern sem_t semAccelData;
 
 /*
- *  ======== mainThread ========
- *  Thread to perform a file copy
- *
- *  Thread tries to open an existing file inputfile[]. If the file doesn't
- *  exist, create one and write some known content into it.
- *  The contents of the inputfile[] are then copied to an output file
- *  outputfile[]. Once completed, the contents of the output file are
- *  printed onto the system console (stdout).
+ *  ======== sdCardThread ========
  */
 void *sdCardThread(void *arg0)
 {
-    // memset(accelDataBuffer0, 'a', 4*ACCEL_DATA_BUF_COUNT);
-    // memset(accelDataBuffer1, 'A', 4*ACCEL_DATA_BUF_COUNT);
-
     SDSPI_Handle sdspiHandle;
     SDSPI_Params sdspiParams;
 
     /* Variables for the CIO functions */
-    FILE *src, *dst;
+    // FILE *src; 
+    FILE *dst;
 
     /* Variables to keep track of the file copy progress */
     unsigned int bytesRead = 0;
     unsigned int bytesWritten = 0;
-    unsigned int filesize;
+    // unsigned int filesize;
     unsigned int totalBytesCopied = 0;
 
-    /* Call driver init functions */
-    // GPIO_init();
-    // Display_init();
-    // SDSPI_init();
 
     /* add_device() should be called once and is used for all media types */
     add_device(fatfsPrefix, _MSA, ffcio_open, ffcio_close, ffcio_read,
@@ -156,7 +145,7 @@ void *sdCardThread(void *arg0)
     /* Turn on user LED */
     // GPIO_write(Board_GPIO_LED0, Board_GPIO_LED_ON);
 
-    Display_printf(display, 0, 0, "Starting the fatsd example\n");
+    // Display_printf(display, 0, 0, "Starting the fatsd example\n");
 
     /* Mount and register the SD Card */
     SDSPI_Params_init(&sdspiParams);
@@ -166,7 +155,8 @@ void *sdCardThread(void *arg0)
         while (1);
     }
     else {
-        Display_printf(display, 0, 0, "Drive %u is mounted\n", DRIVE_NUM);
+        // Display_printf(display, 0, 0, "Drive %u is mounted\n", DRIVE_NUM);
+        Display_printf(display, 0, 0, "SD card initialized");
     }
 
     /* Try to open the source file */
@@ -197,139 +187,129 @@ void *sdCardThread(void *arg0)
     //     Display_printf(display, 0, 0, "Using existing copy of \"%s\"\n", inputfile);
     // }
 
-    /* Create a new file object for the file copy */
-    dst = fopen(outputfile, "w");
-    if (!dst) {
-        Display_printf(display, 0, 0, "Error opening \"%s\"\n", outputfile);
-        Display_printf(display, 0, 0, "Aborting...\n");
-        while (1);
-    }
-    else {
-        Display_printf(display, 0, 0, "Starting file copy\n");
-    }
+    while(1) {
+        totalBytesCopied = 0;   // reset totalBytesCopied
 
-    // /*  Copy the contents from the src to the dst */
-    // while (true) {
-    //     /*  Read from source file */
-    //     bytesRead = fread(cpy_buff, 1, CPY_BUFF_SIZE, src);
-    //     if (bytesRead == 0) {
-    //         break; /* Error or EOF */
-    //     }
+        pthread_barrier_wait(&accelDataBarrier);
 
-    //     /*  Write to dst file */
-    //     bytesWritten = fwrite(cpy_buff, 1, bytesRead, dst);
-    //     if (bytesWritten < bytesRead) {
-    //         Display_printf(display, 0, 0, "Disk Full\n");
-    //         break; /* Error or Disk Full */
-    //     }
-
-    //     /*  Update the total number of bytes copied */
-    //     totalBytesCopied += bytesWritten;
-    // }
-
-
-    int i, retc;
-
-    pthread_barrier_wait(&barrier);
-
-    for (i=0; i<10; i++) {
-        // Barrier until data is ready
-        retc = sem_wait(&semFullAccelBuffer);
-        if (retc == -1) while (1);
-
-//         Display_printf(display, 0, 0, "Writing from buffer %d", (i%2));
-
-        /*  Write to dst file */
-        int j;
-        if (!(i%2)) {   /* signal indicates which buffer should be read */
-            for (j=0; j<ACCEL_DATA_BUF_COUNT; j += 512/sizeof(uint32_t)) {
-                // Display_printf(display, 0, 0, "buf0 j = %d", j);
-                sem_wait(&semAccelData);
-                bytesWritten = fwrite(accelDataBuffer0+j, sizeof *accelDataBuffer0, 512/sizeof(uint32_t), dst);
-                sem_post(&semAccelData);
-                // sched_yield();
-            }
-            // bytesWritten = fwrite(accelDataBuffer0, sizeof *accelDataBuffer0, ACCEL_DATA_BUF_COUNT, dst);
-            // bytesWritten = fwrite(accelDataBuffer0, sizeof *accelDataBuffer0, ACCEL_DATA_BUF_COUNT/4, dst);
-            // sched_yield();
-            // bytesWritten = fwrite(accelDataBuffer0+ACCEL_DATA_BUF_COUNT/4, sizeof *accelDataBuffer0, ACCEL_DATA_BUF_COUNT/4, dst);
-            // sched_yield();
-            // bytesWritten = fwrite(accelDataBuffer0+ACCEL_DATA_BUF_COUNT/2, sizeof *accelDataBuffer0, ACCEL_DATA_BUF_COUNT/4, dst);
-            // sched_yield();
-            // bytesWritten = fwrite(accelDataBuffer0+ACCEL_DATA_BUF_COUNT*3/4, sizeof *accelDataBuffer0, ACCEL_DATA_BUF_COUNT/4, dst);
-//            Display_printf(display, 0, 0, "%d,%d,%d", accelDataBuffer0[0], accelDataBuffer0[1], accelDataBuffer0[2]);
+        // Create a new file object
+        sprintf(outputfile, "fat:"STR(DRIVE_NUM)":dataOut%d.txt", recordNum);
+        dst = fopen(outputfile, "w");
+        if (!dst) {
+            Display_printf(display, 0, 0, "Error opening \"%s\"\n", outputfile);
+            Display_printf(display, 0, 0, "Aborting...\n");
+            while (1);
         } else {
-            for (j=0; j<ACCEL_DATA_BUF_COUNT; j += 512/sizeof(uint32_t)) {
-                // Display_printf(display, 0, 0, "buf1 j = %d", j);
-                if (i != 9) sem_wait(&semAccelData);
-                bytesWritten = fwrite(accelDataBuffer1+j, sizeof *accelDataBuffer1, 512/sizeof(uint32_t), dst);
-                if (i != 9) sem_post(&semAccelData);
-                // sched_yield();
-            }
-            // bytesWritten = fwrite(accelDataBuffer1, sizeof *accelDataBuffer1, ACCEL_DATA_BUF_COUNT, dst);
-            // bytesWritten = fwrite(accelDataBuffer1, sizeof *accelDataBuffer1, ACCEL_DATA_BUF_COUNT/4, dst);
-            // sched_yield();
-            // bytesWritten = fwrite(accelDataBuffer1+ACCEL_DATA_BUF_COUNT/4, sizeof *accelDataBuffer1, ACCEL_DATA_BUF_COUNT/4, dst);
-            // sched_yield();
-            // bytesWritten = fwrite(accelDataBuffer1+ACCEL_DATA_BUF_COUNT/2, sizeof *accelDataBuffer1, ACCEL_DATA_BUF_COUNT/4, dst);
-            // sched_yield();
-            // bytesWritten = fwrite(accelDataBuffer1+ACCEL_DATA_BUF_COUNT*3/4, sizeof *accelDataBuffer1, ACCEL_DATA_BUF_COUNT/4, dst);
+            Display_printf(display, 0, 0, "Starting file copy\n");
         }
-//        bytesWritten = fwrite(textarray, 1, sizeof(textarray), dst);
-        // Display_printf(display, 0, 0, "bytesWritten = %d", bytesWritten);
 
-        // if (bytesWritten < ACCEL_DATA_BUF_COUNT) {
-        if (bytesWritten < 512/sizeof(uint32_t)) {
-            Display_printf(display, 0, 0, "Disk Full");
-            break; /* Error or Disk Full */
+        int i, retc;
+
+        pthread_barrier_wait(&accelDataBarrier);
+
+        for (i=0; i<10; i++) {
+            bytesWritten = 0;
+
+            // Barrier until data is ready
+            retc = sem_wait(&semFullAccelBuffer);
+            if (retc == -1) while (1);
+
+    //         Display_printf(display, 0, 0, "Writing from buffer %d", (i%2));
+
+            /*  Write to dst file */
+            int j;
+            if (!(i%2)) {   /* signal indicates which buffer should be read */
+                for (j=0; j<ACCEL_DATA_BUF_COUNT; j += 512/sizeof(*accelDataBuffer0)) {
+                    // Display_printf(display, 0, 0, "buf0 j = %d", j);
+                    sem_wait(&semAccelData);
+                    bytesWritten += fwrite(accelDataBuffer0+j, sizeof(*accelDataBuffer0), 512/sizeof(*accelDataBuffer0), dst);
+                    sem_post(&semAccelData);
+                    // sched_yield();
+                }
+                // bytesWritten = fwrite(accelDataBuffer0, sizeof *accelDataBuffer0, ACCEL_DATA_BUF_COUNT, dst);
+                // bytesWritten = fwrite(accelDataBuffer0, sizeof *accelDataBuffer0, ACCEL_DATA_BUF_COUNT/4, dst);
+                // sched_yield();
+                // bytesWritten = fwrite(accelDataBuffer0+ACCEL_DATA_BUF_COUNT/4, sizeof *accelDataBuffer0, ACCEL_DATA_BUF_COUNT/4, dst);
+                // sched_yield();
+                // bytesWritten = fwrite(accelDataBuffer0+ACCEL_DATA_BUF_COUNT/2, sizeof *accelDataBuffer0, ACCEL_DATA_BUF_COUNT/4, dst);
+                // sched_yield();
+                // bytesWritten = fwrite(accelDataBuffer0+ACCEL_DATA_BUF_COUNT*3/4, sizeof *accelDataBuffer0, ACCEL_DATA_BUF_COUNT/4, dst);
+    //            Display_printf(display, 0, 0, "%d,%d,%d", accelDataBuffer0[0], accelDataBuffer0[1], accelDataBuffer0[2]);
+            } else {
+                for (j=0; j<ACCEL_DATA_BUF_COUNT; j += 512/sizeof(*accelDataBuffer1)) {
+                    // Display_printf(display, 0, 0, "buf1 j = %d", j);
+                    if (i != 9) sem_wait(&semAccelData);
+                    bytesWritten += fwrite(accelDataBuffer1+j, sizeof(*accelDataBuffer1), 512/sizeof(*accelDataBuffer1), dst);
+                    if (i != 9) sem_post(&semAccelData);
+                    // sched_yield();
+                }
+                // bytesWritten = fwrite(accelDataBuffer1, sizeof *accelDataBuffer1, ACCEL_DATA_BUF_COUNT, dst);
+                // bytesWritten = fwrite(accelDataBuffer1, sizeof *accelDataBuffer1, ACCEL_DATA_BUF_COUNT/4, dst);
+                // sched_yield();
+                // bytesWritten = fwrite(accelDataBuffer1+ACCEL_DATA_BUF_COUNT/4, sizeof *accelDataBuffer1, ACCEL_DATA_BUF_COUNT/4, dst);
+                // sched_yield();
+                // bytesWritten = fwrite(accelDataBuffer1+ACCEL_DATA_BUF_COUNT/2, sizeof *accelDataBuffer1, ACCEL_DATA_BUF_COUNT/4, dst);
+                // sched_yield();
+                // bytesWritten = fwrite(accelDataBuffer1+ACCEL_DATA_BUF_COUNT*3/4, sizeof *accelDataBuffer1, ACCEL_DATA_BUF_COUNT/4, dst);
+            }
+    //        bytesWritten = fwrite(textarray, 1, sizeof(textarray), dst);
+            // Display_printf(display, 0, 0, "bytesWritten = %d", bytesWritten);
+
+            // if (bytesWritten < ACCEL_DATA_BUF_COUNT) {
+            // if (bytesWritten < 512/sizeof(uint32_t)) {
+            //     Display_printf(display, 0, 0, "Disk Full");
+            //     break; /* Error or Disk Full */
+            // }
+
+            fflush(dst);
+
+            /*  Update the total number of bytes copied */
+            totalBytesCopied += bytesWritten;
+            Display_printf(display, 0, 0, "Writing from buffer %d complete", (i%2));
         }
 
         // fflush(dst);
 
-        /*  Update the total number of bytes copied */
-        totalBytesCopied += bytesWritten;
-        Display_printf(display, 0, 0, "Writing from buffer %d complete", (i%2));
+        /* Get the filesize of the source file */
+        // fseek(src, 0, SEEK_END);
+        // filesize = ftell(src);
+        // rewind(src);
+
+        /* Close both inputfile[] and outputfile[] */
+        // fclose(src);
+        fclose(dst);
+
+        // Display_printf(display, 0, 0, "File \"%s\" (%u B) copied to \"%s\" (Wrote %u B)\n",
+        //               inputfile, filesize, outputfile, totalBytesCopied);
+        Display_printf(display, 0, 0, "(Wrote %u B) to \"%s\" \n", totalBytesCopied, outputfile);
+
+    
+        // Now output the outputfile[] contents onto the console
+        // dst = fopen(outputfile, "r");
+        // if (!dst) {
+        //    Display_printf(display, 0, 0, "Error opening \"%s\"\n", outputfile);
+        //    Display_printf(display, 0, 0, "Aborting...\n");
+        //    while (1);
+        // }
+        // while (true) {
+        //     // bytesRead = fread(cpy_buff, 1, CPY_BUFF_SIZE, dst);
+        //     bytesRead = fread(cpy_buff, sizeof(*accelDataBuffer0), 3, dst);
+        //     if (bytesRead == 0) break; /* Error or EOF */
+        //     // Display_printf(display, 0, 0, "%d,%d,%d,", cpy_buff[0], cpy_buff[1], cpy_buff[2]);
+
+        //     sprintf(tempStr, "%d,%d,%d,\r\n", cpy_buff[0], cpy_buff[1], cpy_buff[2]);
+        //     UART_write(uartXbee, tempStr, strlen(tempStr));
+
+        //     // cpy_buff[bytesRead] = '\0';
+        //     // UART_write(uartXbee, cpy_buff, CPY_BUFF_SIZE);
+
+        // }
+        // fclose(dst);
+
+        recordNum++;
+        pthread_barrier_wait(&accelDataBarrier);
     }
-
-    // fflush(dst);
-
-    /* Get the filesize of the source file */
-    // fseek(src, 0, SEEK_END);
-    // filesize = ftell(src);
-    // rewind(src);
-
-    /* Close both inputfile[] and outputfile[] */
-    // fclose(src);
-    fclose(dst);
-
-    // Display_printf(display, 0, 0, "File \"%s\" (%u B) copied to \"%s\" (Wrote %u B)\n",
-    //               inputfile, filesize, outputfile, totalBytesCopied);
-    Display_printf(display, 0, 0, "(Wrote %u B) to \"%s\" \n", totalBytesCopied, outputfile);
-
-    /* Now output the outputfile[] contents onto the console */
-//    dst = fopen(outputfile, "r");
-//    if (!dst) {
-//        Display_printf(display, 0, 0, "Error opening \"%s\"\n", outputfile);
-//        Display_printf(display, 0, 0, "Aborting...\n");
-//        while (1);
-//    }
-//
-//    /* Print file contents */
-//    while (true) {
-//        /* Read from output file */
-//        bytesRead = fread(cpy_buff, 1, CPY_BUFF_SIZE, dst);
-//        if (bytesRead == 0) {
-//            break; /* Error or EOF */
-//        }
-//        cpy_buff[bytesRead] = '\0';
-//        /* Write output */
-//        Display_printf(display, 0, 0, "%s", cpy_buff);
-//    }
-//
-//    /* Close the file */
-//    fclose(dst);
-
-    pthread_barrier_wait(&barrier);
+    
 
     /* Stopping the SDCard */
     SDSPI_close(sdspiHandle);

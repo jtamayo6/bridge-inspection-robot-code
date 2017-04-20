@@ -31,7 +31,7 @@
  */
 
 /*
- *  ======== spiloopback.c ========
+ *  ======== accelThread.c ========
  */
 #include <stdint.h>
 #include <stddef.h>
@@ -62,7 +62,7 @@
 // Watermark for reading n samples from accelerometer at a time
 #define ACCEL_WATERMARK_SAMPLES 24
 
-// extern pthread_barrier_t barrier;
+// extern pthread_barrier_t accelDataBarrier;
 // extern sem_t semAccelData;
 
 // extern Display_Handle display;
@@ -84,6 +84,9 @@ void timerCallback(Timer_Handle myHandle)
     time_ms++;
 }
 
+/*
+ *  ======== accelThread ========
+ */
 void *accelThread(void *arg0)
 {
     int i, j, bufNum; // i, j, and bufNum are for accel data capture
@@ -190,223 +193,234 @@ void *accelThread(void *arg0)
     fifoOverTransaction.txBuf = (void *)fifoOverTxBuffer;
     fifoOverTransaction.rxBuf = (void *)fifoOverRxBuffer;
 
-    // PWM_Handle pwm;
-    // PWM_Params pwmParams;
-    // PWM_Params_init(&pwmParams);
+    PWM_Handle pwm;
+    PWM_Params pwmParams;
+    PWM_Params_init(&pwmParams);
 
-    // pwmParams.dutyUnits = PWM_DUTY_US;
-    // pwmParams.dutyValue = 1000;
-    // pwmParams.periodUnits = PWM_PERIOD_US;
-    // pwmParams.periodValue = 20000;
-    // pwm = PWM_open(Board_PWM0, &pwmParams);
-    // if (pwm == NULL) while (1);    // Failed to open linear actuator
+    pwmParams.dutyUnits = PWM_DUTY_US;
+    pwmParams.dutyValue = 1000;
+    pwmParams.periodUnits = PWM_PERIOD_US;
+    pwmParams.periodValue = 20000;
+    pwm = PWM_open(Board_PWM0, &pwmParams);
+    if (pwm == NULL) while (1);    // Failed to open linear actuator
 
-    // PWM_start(pwm);
-    // PWM_setDuty(pwm, 1000);
+    PWM_start(pwm);
+    PWM_setDuty(pwm, 1000);
 
-    // retc = sem_wait(&semAccelData);
-    // // pthread_barrier_wait(&barrier); // Barrier until SD card is ready
+    while (1) {
 
-    // PWM_setDuty(pwm, 1650);
+        // retc = sem_wait(&semAccelData);
+        pthread_barrier_wait(&accelDataBarrier); // Barrier until signal is received from XBee
 
-    // sleep(6);
+        PWM_setDuty(pwm, 1650);
 
-    pthread_barrier_wait(&barrier); // Barrier until SD card is ready
+        sleep(6);
 
-    // Set accel to measurement mode
-    accelTxBuffer[0] = (0x2D << 1);
-    accelTxBuffer[1] = 0x02;
-    GPIO_write(4, 0);
-    transferOK = SPI_transfer(masterSpi, &masterTransaction);
-    GPIO_write(4, 1);
+        pthread_barrier_wait(&accelDataBarrier); // Barrier until XBee and SD card is ready
 
-    // if (GPIO_read(7)) {
-    //     GPIO_write(4, 0);
-    //     transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
-    //     GPIO_write(4, 1);
-    //     errorCount++;
-    //     Display_printf(display, 0, 0, "start err");
-    // }
+        // Set accel to measurement mode
+        accelTxBuffer[0] = (0x2D << 1);
+        accelTxBuffer[1] = 0x02;
+        GPIO_write(4, 0);
+        transferOK = SPI_transfer(masterSpi, &masterTransaction);
+        GPIO_write(4, 1);
 
-    if (Timer_start(timer0) == Timer_STATUS_ERROR) while (1); // Failed to start timer
-
-    masterTransaction.count = 10;
-    accelTxBuffer[0] = (0x11 << 1) | 1;
-    accelTxBuffer[1] = 0x00;
-
-    /* Accelerometer data capture */
-
-    for (bufNum=0; bufNum<10; bufNum++) {
-        if (!(bufNum%2)) {
-            for (i=0; i<ACCEL_DATA_BUF_COUNT; i+=ACCEL_WATERMARK_SAMPLES) {
-                if (GPIO_read(7)) {
-                    GPIO_write(4, 0);
-                    transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
-                    GPIO_write(4, 1);
-                    errorCount++;
-                    Display_printf(display, 0, 0, "err, i = %d", i);
-                }
-                while (!GPIO_read(6));
-                for (j=i; j<i+ACCEL_WATERMARK_SAMPLES; j+=3) {
-                    GPIO_write(4, 0);
-                    transferOK = SPI_transfer(masterSpi, &masterTransaction);
-                    GPIO_write(4, 1);
-                    // if (!(accelRxBuffer[3] & 0x01)) {
-                    //     // GPIO_toggle(Board_GPIO_LED0);
-                    //     errorCount++;
-                    // }
-                    accelDataBuffer0[j] = ((accelRxBuffer[1] << 24)
-                                         | (accelRxBuffer[2] << 16)
-                                         | (accelRxBuffer[3] << 8)) >> 12;
-                    accelDataBuffer0[j+1] = ((accelRxBuffer[4] << 24)
-                                           | (accelRxBuffer[5] << 16)
-                                           | (accelRxBuffer[6] << 8)) >> 12;
-                    accelDataBuffer0[j+2] = ((accelRxBuffer[7] << 24)
-                                           | (accelRxBuffer[8] << 16)
-                                           | (accelRxBuffer[9] << 8)) >> 12;
-                }
-                if (bufNum != 0 && !(i%96)) {
-                    // sched_yield();
-                    sem_post(&semAccelData);
-                    sem_wait(&semAccelData);
-                }
-
-                // GPIO_write(4, 0);
-                // transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
-                // GPIO_write(4, 1);
-            }
-//            Display_printf(display, 0, 0, "%d,%d,%d", accelDataBuffer0[0], accelDataBuffer0[1], accelDataBuffer0[2]);
-        } else {
-            // if (GPIO_read(7)) {
-            //     GPIO_write(4, 0);
-            //     transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
-            //     GPIO_write(4, 1);
-            //     errorCount++;
-            //     GPIO_toggle(Board_GPIO_LED0);
-            // }
-            for (i=0; i<ACCEL_DATA_BUF_COUNT; i+=ACCEL_WATERMARK_SAMPLES) {
-                if (GPIO_read(7)) {
-                    GPIO_write(4, 0);
-                    transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
-                    GPIO_write(4, 1);
-                    errorCount++;
-                    Display_printf(display, 0, 0, "err");
-                }
-                while (!GPIO_read(6));
-                for (j=i; j<i+ACCEL_WATERMARK_SAMPLES; j+=3) {
-                    GPIO_write(4, 0);
-                    transferOK = SPI_transfer(masterSpi, &masterTransaction);
-                    GPIO_write(4, 1);
-                    // if (!(accelRxBuffer[3] & 0x01)) {
-                    //     // GPIO_toggle(Board_GPIO_LED0);
-                    //     errorCount++;
-                    // }
-                    accelDataBuffer1[j] = ((accelRxBuffer[1] << 24)
-                                         | (accelRxBuffer[2] << 16)
-                                         | (accelRxBuffer[3] << 8)) >> 12;
-                    accelDataBuffer1[j+1] = ((accelRxBuffer[4] << 24)
-                                           | (accelRxBuffer[5] << 16)
-                                           | (accelRxBuffer[6] << 8)) >> 12;
-                    accelDataBuffer1[j+2] = ((accelRxBuffer[7] << 24)
-                                           | (accelRxBuffer[8] << 16)
-                                           | (accelRxBuffer[9] << 8)) >> 12;
-                }
-                if (!(i%96)) {
-                    // sched_yield();
-                    sem_post(&semAccelData);
-                    sem_wait(&semAccelData);
-                }
-
-//                 GPIO_write(4, 0);
-//                 transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
-//                 GPIO_write(4, 1);
-//                 if (GPIO_read(7)) {
-//                     GPIO_write(4, 0);
-//                     transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
-//                     GPIO_write(4, 1);
-//                     errorCount++;
-//                     GPIO_toggle(Board_GPIO_LED0);
-//                 }
-            }
-//             for (i=0; i<ACCEL_DATA_BUF_COUNT; i+=3) {
-//                 while (!GPIO_read(6));
-//                 GPIO_write(4, 0);
-//                 transferOK = SPI_transfer(masterSpi, &masterTransaction);
-//                 GPIO_write(4, 1);
-//                 accelDataBuffer1[i] = ((accelRxBuffer[1] << 24)
-//                                      | (accelRxBuffer[2] << 16)
-//                                      | (accelRxBuffer[3] << 8)) >> 12;
-//                 accelDataBuffer1[i+1] = ((accelRxBuffer[4] << 24)
-//                                        | (accelRxBuffer[5] << 16)
-//                                        | (accelRxBuffer[6] << 8)) >> 12;
-//                 accelDataBuffer1[i+2] = ((accelRxBuffer[7] << 24)
-//                                        | (accelRxBuffer[8] << 16)
-//                                        | (accelRxBuffer[9] << 8)) >> 12;
-//                 // if (!(errorCount++ % 1000)) {
-//                 //     GPIO_toggle(Board_GPIO_LED0);
-//                 // }
-//                 GPIO_write(4, 0);
-//                 transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
-//                 GPIO_write(4, 1);
-//                 if (fifoOverRxBuffer[1] & 0x04) {
-//                     // Display_printf(display, 0, 0, "data missed!");
-//                     errorCount++;
-//                 }
-//             }
+        if (GPIO_read(7)) {
+            GPIO_write(4, 0);
+            transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
+            GPIO_write(4, 1);
+            // errorCount++;
         }
-        Display_printf(display, 0, 0, "Buffer %d filled", (bufNum%2));
-        // timervals[timerval_count++] = Timer_getCount(timer0);
 
-        retc = sem_post(&semFullAccelBuffer);
-        if (retc == -1) while (1);
+        errorCount = 0; // reset errorCount
+        time_ms = 0;
+        if (Timer_start(timer0) == Timer_STATUS_ERROR) while (1); // Failed to start timer
+
+        masterTransaction.count = 10;
+        accelTxBuffer[0] = (0x11 << 1) | 1;
+        accelTxBuffer[1] = 0x00;
+
+        /* Accelerometer data capture */
+
+        for (bufNum=0; bufNum<10; bufNum++) {
+            if (!(bufNum%2)) {
+                for (i=0; i<ACCEL_DATA_BUF_COUNT; i+=ACCEL_WATERMARK_SAMPLES) {
+                    if (GPIO_read(7)) {
+                        GPIO_write(4, 0);
+                        transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
+                        GPIO_write(4, 1);
+                        errorCount++;
+                    }
+                    while (!GPIO_read(6));
+                    for (j=i; j<i+ACCEL_WATERMARK_SAMPLES; j+=3) {
+                        GPIO_write(4, 0);
+                        transferOK = SPI_transfer(masterSpi, &masterTransaction);
+                        GPIO_write(4, 1);
+                        // if (!(accelRxBuffer[3] & 0x01)) {
+                        //     // GPIO_toggle(Board_GPIO_LED0);
+                        //     errorCount++;
+                        // }
+                        accelDataBuffer0[j] = ((accelRxBuffer[1] << 24)
+                                             | (accelRxBuffer[2] << 16)
+                                             | (accelRxBuffer[3] << 8)) >> 12;
+                        accelDataBuffer0[j+1] = ((accelRxBuffer[4] << 24)
+                                               | (accelRxBuffer[5] << 16)
+                                               | (accelRxBuffer[6] << 8)) >> 12;
+                        accelDataBuffer0[j+2] = ((accelRxBuffer[7] << 24)
+                                               | (accelRxBuffer[8] << 16)
+                                               | (accelRxBuffer[9] << 8)) >> 12;
+                    }
+                    if (bufNum != 0 && !(i%96)) {
+                        // sched_yield();
+                        sem_post(&semAccelData);
+                        sem_wait(&semAccelData);
+                    }
+
+                    // GPIO_write(4, 0);
+                    // transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
+                    // GPIO_write(4, 1);
+                }
+    //            Display_printf(display, 0, 0, "%d,%d,%d", accelDataBuffer0[0], accelDataBuffer0[1], accelDataBuffer0[2]);
+            } else {
+                // if (GPIO_read(7)) {
+                //     GPIO_write(4, 0);
+                //     transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
+                //     GPIO_write(4, 1);
+                //     errorCount++;
+                //     GPIO_toggle(Board_GPIO_LED0);
+                // }
+                for (i=0; i<ACCEL_DATA_BUF_COUNT; i+=ACCEL_WATERMARK_SAMPLES) {
+                    if (GPIO_read(7)) {
+                        GPIO_write(4, 0);
+                        transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
+                        GPIO_write(4, 1);
+                        errorCount++;
+                    }
+                    while (!GPIO_read(6));
+                    for (j=i; j<i+ACCEL_WATERMARK_SAMPLES; j+=3) {
+                        GPIO_write(4, 0);
+                        transferOK = SPI_transfer(masterSpi, &masterTransaction);
+                        GPIO_write(4, 1);
+                        // if (!(accelRxBuffer[3] & 0x01)) {
+                        //     // GPIO_toggle(Board_GPIO_LED0);
+                        //     errorCount++;
+                        // }
+                        accelDataBuffer1[j] = ((accelRxBuffer[1] << 24)
+                                             | (accelRxBuffer[2] << 16)
+                                             | (accelRxBuffer[3] << 8)) >> 12;
+                        accelDataBuffer1[j+1] = ((accelRxBuffer[4] << 24)
+                                               | (accelRxBuffer[5] << 16)
+                                               | (accelRxBuffer[6] << 8)) >> 12;
+                        accelDataBuffer1[j+2] = ((accelRxBuffer[7] << 24)
+                                               | (accelRxBuffer[8] << 16)
+                                               | (accelRxBuffer[9] << 8)) >> 12;
+                    }
+                    if (!(i%96)) {
+                        // sched_yield();
+                        sem_post(&semAccelData);
+                        sem_wait(&semAccelData);
+                    }
+
+    //                 GPIO_write(4, 0);
+    //                 transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
+    //                 GPIO_write(4, 1);
+    //                 if (GPIO_read(7)) {
+    //                     GPIO_write(4, 0);
+    //                     transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
+    //                     GPIO_write(4, 1);
+    //                     errorCount++;
+    //                     GPIO_toggle(Board_GPIO_LED0);
+    //                 }
+                }
+    //             for (i=0; i<ACCEL_DATA_BUF_COUNT; i+=3) {
+    //                 while (!GPIO_read(6));
+    //                 GPIO_write(4, 0);
+    //                 transferOK = SPI_transfer(masterSpi, &masterTransaction);
+    //                 GPIO_write(4, 1);
+    //                 accelDataBuffer1[i] = ((accelRxBuffer[1] << 24)
+    //                                      | (accelRxBuffer[2] << 16)
+    //                                      | (accelRxBuffer[3] << 8)) >> 12;
+    //                 accelDataBuffer1[i+1] = ((accelRxBuffer[4] << 24)
+    //                                        | (accelRxBuffer[5] << 16)
+    //                                        | (accelRxBuffer[6] << 8)) >> 12;
+    //                 accelDataBuffer1[i+2] = ((accelRxBuffer[7] << 24)
+    //                                        | (accelRxBuffer[8] << 16)
+    //                                        | (accelRxBuffer[9] << 8)) >> 12;
+    //                 // if (!(errorCount++ % 1000)) {
+    //                 //     GPIO_toggle(Board_GPIO_LED0);
+    //                 // }
+    //                 GPIO_write(4, 0);
+    //                 transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
+    //                 GPIO_write(4, 1);
+    //                 if (fifoOverRxBuffer[1] & 0x04) {
+    //                     // Display_printf(display, 0, 0, "data missed!");
+    //                     errorCount++;
+    //                 }
+    //             }
+            }
+            Display_printf(display, 0, 0, "Buffer %d filled", (bufNum%2));
+            // timervals[timerval_count++] = Timer_getCount(timer0);
+
+            retc = sem_post(&semFullAccelBuffer);
+            if (retc == -1) while (1);
+        }
+
+    /*     while(count--) {
+             GPIO_write(4, 0);
+             transferOK = SPI_transfer(masterSpi, &masterTransaction);
+             GPIO_write(4, 1);
+
+     //         if(transferOK) {
+     //             // Print contents of master receive buffer
+     //             Display_printf(display, 0, 0, "Successful master SPI transfer\n");
+     //         }
+     //         else {
+     //             Display_printf(display, 0, 0, "Unsuccessful master SPI transfer");
+     //         }
+
+             xval = ((accelRxBuffer[1] << 24) | (accelRxBuffer[2] << 16) | (accelRxBuffer[3] << 8)) >> 12;
+             yval = ((accelRxBuffer[4] << 24) | (accelRxBuffer[5] << 16) | (accelRxBuffer[6] << 8)) >> 12;
+             zval = ((accelRxBuffer[7] << 24) | (accelRxBuffer[8] << 16) | (accelRxBuffer[9] << 8)) >> 12;
+     //        count++;
+
+     //        xg = xval / 256000.0;
+     //        yg = yval / 256000.0;
+     //        zg = zval / 256000.0;
+
+     //        if (!(++count % 1000)) {
+     //            Display_printf(display, 0, 0, "%d", count);
+     //        }
+
+     //        Display_printf(display, 0, 0, "%d X-axis = %f g, Y-axis = %f g, Z-axis = %f g \n\r", count++, xg, yg, zg);
+             // Display_printf(display, 0, 0, "%d,%d,%d", xval, yval, zval);
+     //        int i;
+     //        for (i=0; i<10; i++) {
+     //            Display_printf(display, 0, 0, "accelRxBuffer[%d] = %d", i, accelRxBuffer[i]);
+     //        }
+     //        Task_sleep(10);
+         } */
+
+        // Timer_stop(timer0);
+        // for (i=0; i<20; i++) {
+        //     Display_printf(display, 0, 0, "%d\n", timervals[i]);
+        // }
+
+        // Set accel to standby mode
+        masterTransaction.count = 2;
+        accelTxBuffer[0] = (0x2D << 1);
+        accelTxBuffer[1] = 0x01;
+        GPIO_write(4, 0);
+        transferOK = SPI_transfer(masterSpi, &masterTransaction);
+        GPIO_write(4, 1);
+
+        Display_printf(display, 0, 0, "\nErrors = %d\n", errorCount);
+        Display_printf(display, 0, 0, "\nRunning time = %d ms\n", time_ms);
+
+        PWM_setDuty(pwm, 1000);
+        sleep(6);
+
+        pthread_barrier_wait(&accelDataBarrier);
     }
-
-/*     while(count--) {
-         GPIO_write(4, 0);
-         transferOK = SPI_transfer(masterSpi, &masterTransaction);
-         GPIO_write(4, 1);
-
- //         if(transferOK) {
- //             // Print contents of master receive buffer
- //             Display_printf(display, 0, 0, "Successful master SPI transfer\n");
- //         }
- //         else {
- //             Display_printf(display, 0, 0, "Unsuccessful master SPI transfer");
- //         }
-
-         xval = ((accelRxBuffer[1] << 24) | (accelRxBuffer[2] << 16) | (accelRxBuffer[3] << 8)) >> 12;
-         yval = ((accelRxBuffer[4] << 24) | (accelRxBuffer[5] << 16) | (accelRxBuffer[6] << 8)) >> 12;
-         zval = ((accelRxBuffer[7] << 24) | (accelRxBuffer[8] << 16) | (accelRxBuffer[9] << 8)) >> 12;
- //        count++;
-
- //        xg = xval / 256000.0;
- //        yg = yval / 256000.0;
- //        zg = zval / 256000.0;
-
- //        if (!(++count % 1000)) {
- //            Display_printf(display, 0, 0, "%d", count);
- //        }
-
- //        Display_printf(display, 0, 0, "%d X-axis = %f g, Y-axis = %f g, Z-axis = %f g \n\r", count++, xg, yg, zg);
-         // Display_printf(display, 0, 0, "%d,%d,%d", xval, yval, zval);
- //        int i;
- //        for (i=0; i<10; i++) {
- //            Display_printf(display, 0, 0, "accelRxBuffer[%d] = %d", i, accelRxBuffer[i]);
- //        }
- //        Task_sleep(10);
-     } */
-
-    // Timer_stop(timer0);
-    // for (i=0; i<20; i++) {
-    //     Display_printf(display, 0, 0, "%d\n", timervals[i]);
-    // }
-    Display_printf(display, 0, 0, "\nErrors = %d\n", errorCount);
-    Display_printf(display, 0, 0, "\nRunning time = %d ms\n", time_ms);
-
-    pthread_barrier_wait(&barrier);
-
-    // PWM_setDuty(pwm, 1000);
-    // sleep(6);
 
     /* Deinitialize SPI */
     SPI_close(masterSpi);

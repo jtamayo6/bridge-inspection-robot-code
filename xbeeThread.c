@@ -31,8 +31,9 @@
  */
 
 /*
- *  ======== console.c ========
+ *  ======== xbeeThread.c ========
  */
+#include <stdio.h>
 #include <string.h>
 
 /* POSIX Header files */
@@ -47,6 +48,17 @@
 #include "Board.h"
 
 /* Console display strings */
+const char textarray[] = \
+"***********************************************************************\n"
+"0         1         2         3         4         5         6         7\n"
+"01234567890123456789012345678901234567890123456789012345678901234567890\n"
+"This is some text to be inserted into the inputfile if there isn't\n"
+"already an existing file located on the media.\n"
+"If an inputfile already exists, or if the file was already once\n"
+"generated, then the inputfile will NOT be modified.\n"
+"***********************************************************************\n";
+
+
 const char consoleDisplay[]   = "\fConsole (h for help)\r\n";
 const char helpPrompt[]       = "Valid Commands\r\n"                  \
                                 "--------------\r\n"                  \
@@ -71,11 +83,13 @@ const char recordAccelDoneDisplay[] = "Accelerometer reading complete\r\n";
 const char moveMotorsDisplay[] = "Encoder counts for Motor 1 and 0: ";
 const char moveMotorsDoneDisplay[] = "Robot has moved 5000 ticks. Counts = ";
 
+char tempStr[50];
+
 /* Used to determine whether to have the thread block */
 volatile bool uartEnabled = true;
 // sem_t semConsole;
 
-// extern pthread_barrier_t barrier;
+// extern pthread_barrier_t accelDataBarrier;
 
 // extern Display_Handle display;
 
@@ -126,85 +140,7 @@ void encoderTimerCallback(Timer_Handle myHandle)
 }
 
 /*
- *  ======== gpioButtonFxn ========
- *  Callback function for the GPIO interrupt on Board_GPIO_BUTTON1.
- *  There is no debounce logic here since we are just looking for
- *  a button push. The uartEnabled variable protects use against any
- *  additional interrupts cased by the bouncing of the button.
- */
-// void gpioButtonFxn(uint_least8_t index)
-// {
-//     int retc;
-
-//     /* If disabled, enable and post the semaphore */
-//     if (uartEnabled == false) {
-//         uartEnabled = true;
-//         retc = sem_post(&semConsole);
-//         if (retc == -1) {
-//             while (1);
-//         }
-//     }
-// }
-
-/*
- *  ======== simpleConsole ========
- *  Handle the user input. Currently this console does not handle
- *  user back-spaces or other "hard" characters.
- */
-// void simpleConsole(UART_Handle uart)
-// {
-//     char cmd;
-//     int status;
-//     char tempStr[8];
-//     int localTemperatureC;
-//     int localTemperatureF;
-
-//     UART_write(uart, consoleDisplay, sizeof(consoleDisplay));
-
-//     /* Loop until read fails or user quits */
-//     while (1) {
-//         UART_write(uart, userPrompt, sizeof(userPrompt));
-//         status = UART_read(uart, &cmd, sizeof(cmd));
-//         if (status == 0) {
-//             UART_write(uart, readErrDisplay, sizeof(readErrDisplay));
-//             cmd = 'q';
-//         }
-
-//         switch (cmd) {
-//             case 't':
-//                 UART_write(uart, tempStartDisplay, sizeof(tempStartDisplay));
-//                 /*
-//                  *  Make sure we are accessing the global float temperature variables
-//                  *  in a thread-safe manner.
-//                  */
-//                 pthread_mutex_lock(&temperatureMutex);
-//                 localTemperatureC = (int)temperatureC;
-//                 localTemperatureF = (int)temperatureF;
-//                 pthread_mutex_unlock(&temperatureMutex);
-
-//                 itoa((int)localTemperatureC, tempStr);
-//                 UART_write(uart, tempStr, strlen(tempStr));
-//                 UART_write(uart, tempMidDisplay, sizeof(tempMidDisplay));
-//                 itoa((int)localTemperatureF, tempStr);
-//                 UART_write(uart, tempStr, strlen(tempStr));
-//                 UART_write(uart, tempEndDisplay, sizeof(tempEndDisplay));
-//                 break;
-//             case 'c':
-//                 UART_write(uart, cleanDisplay, sizeof(cleanDisplay));
-//                 break;
-//             case 'q':
-//                 UART_write(uart, byeDisplay, sizeof(byeDisplay));
-//                 return;
-//             case 'h':
-//             default:
-//                 UART_write(uart, helpPrompt, sizeof(helpPrompt));
-//                 break;
-//         }
-//     }
-// }
-
-/*
- *  ======== consoleThread ========
+ *  ======== xbeeThread ========
  */
 void *xbeeThread(void *arg0)
 {
@@ -255,11 +191,6 @@ void *xbeeThread(void *arg0)
 
     Display_printf(display, 0, 0, "XBee UART opened");
 
-    // while (1) {
-    //     UART_read(uartXbee, &cmd, 1);
-    //     UART_write(uartXbee, &cmd, 1);
-    // }
-
     UART_write(uartXbee, consoleDisplay, sizeof(consoleDisplay));
 
     retc = sem_init(&semPrintMotorEncoders, 0, 0);
@@ -275,34 +206,27 @@ void *xbeeThread(void *arg0)
         }
 
         switch (cmd) {
+            case 'y':
+                UART_write(uartXbee, textarray, sizeof(textarray));
+                break;
             case 'r':
                 // retc = sem_post(&semAccelData);
                 // if (retc == -1) while (1);
 
-                pthread_barrier_wait(&barrier);
+                pthread_barrier_wait(&accelDataBarrier); // Deploy accelerometer; open new file on SD card
+
+                pthread_barrier_wait(&accelDataBarrier);
                 
-                UART_write(uartXbee, recordAccelDisplay, sizeof(recordAccelDisplay));
+                // UART_write(uartXbee, recordAccelDisplay, sizeof(recordAccelDisplay));
+                sprintf(tempStr, "Reading the accelerometer for 5 seconds...\r\n");
+                UART_write(uartXbee, tempStr, strlen(tempStr));
 
-                pthread_barrier_wait(&barrier);
+                pthread_barrier_wait(&accelDataBarrier);
 
-                UART_write(uartXbee, recordAccelDoneDisplay, sizeof(recordAccelDoneDisplay));
+                // UART_write(uartXbee, recordAccelDoneDisplay, sizeof(recordAccelDoneDisplay));
+                sprintf(tempStr, "Accelerometer reading complete\r\n");
+                UART_write(uartXbee, tempStr, strlen(tempStr));
 
-                // UART_write(uartXbee, tempStartDisplay, sizeof(tempStartDisplay));
-                // /*
-                //  *  Make sure we are accessing the global float temperature variables
-                //  *  in a thread-safe manner.
-                //  */
-                // pthread_mutex_lock(&temperatureMutex);
-                // localTemperatureC = (int)temperatureC;
-                // localTemperatureF = (int)temperatureF;
-                // pthread_mutex_unlock(&temperatureMutex);
-
-                // itoa((int)localTemperatureC, tempStr);
-                // UART_write(uartXbee, tempStr, strlen(tempStr));
-                // UART_write(uartXbee, tempMidDisplay, sizeof(tempMidDisplay));
-                // itoa((int)localTemperatureF, tempStr);
-                // UART_write(uartXbee, tempStr, strlen(tempStr));
-                // UART_write(uartXbee, tempEndDisplay, sizeof(tempEndDisplay));
                 break;
             case 'c':
                 UART_write(uartXbee, cleanDisplay, sizeof(cleanDisplay));
@@ -364,9 +288,9 @@ void *xbeeThread(void *arg0)
                 itoa(count1Copy, count1Str);
 
                 UART_write(uartXbee, moveMotorsDoneDisplay, sizeof(moveMotorsDoneDisplay));
-                UART_write(uartXbee, count0Str, strlen(count0Str));
-                UART_write(uartXbee, spaceDisplay, sizeof(spaceDisplay));
                 UART_write(uartXbee, count1Str, strlen(count1Str));
+                UART_write(uartXbee, spaceDisplay, sizeof(spaceDisplay));
+                UART_write(uartXbee, count0Str, strlen(count0Str));
                 UART_write(uartXbee, newLineDisplay, sizeof(newLineDisplay));
 
                 // sem_post(&semMoveMotors);

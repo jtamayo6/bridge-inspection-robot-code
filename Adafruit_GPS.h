@@ -109,6 +109,6 @@ char *Adafruit_GPS_lastNMEA(void);
 bool Adafruit_GPS_waitForSentence(const char *wait4me, uint8_t max);
 bool Adafruit_GPS_standby(UART_Handle uart);
 void Adafruit_GPS_parseSetup(UART_Handle uart);
-struct gps Adafruit_GPS_parseOutput(UART_Handle uart, struct gps *GPS);
+void Adafruit_GPS_parseOutput(UART_Handle uart, struct gps *GPS);
 
 #endif /* ADAFRUIT_GPS_H_ */

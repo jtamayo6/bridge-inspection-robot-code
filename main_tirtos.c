@@ -60,7 +60,7 @@ Display_Handle display;
 // extern void *motorThread(void *arg0);
 // extern void *xbeeThread(void *arg0);
 
-pthread_barrier_t barrier;
+pthread_barrier_t accelDataBarrier;
 sem_t semFullAccelBuffer;   // Semaphore between accelerometer and SD card, for full buffer
 sem_t semAccelData;   // Semaphore between accelerometer and SD card, for allowing SD card writes
 sem_t semMoveMotors;   // Semaphore between XBee and motors
@@ -95,7 +95,7 @@ int main(void)
     if (display == NULL) while (1); // Failed to open display driver
 
     // Initialize barrier to sync XBee, accelerometer, and SD card threads
-    pthread_barrier_init(&barrier, NULL, 3);
+    pthread_barrier_init(&accelDataBarrier, NULL, 3);
 
         // Initialize semaphore for changing to a filled accelerometer data buffer
     retc = sem_init(&semFullAccelBuffer, 0, 0);
@@ -125,29 +125,28 @@ int main(void)
 
     /* Create threads */
 
-    // Create motor controller thread
+    // Create GPS thread
     priParam.sched_priority = 1;
+    pthread_attr_setschedparam(&pAttrs, &priParam);
+//    retc = pthread_create(&thread, &pAttrs, gpsThread, NULL);
+    if (retc != 0) while (1);  // pthread_create() failed
+
+        // Create motor controller thread
+    priParam.sched_priority = 2;
     pthread_attr_setschedparam(&pAttrs, &priParam);
     retc = pthread_create(&thread, &pAttrs, motorThread, NULL);
     if (retc != 0) while (1);  // pthread_create() failed
 
-    // Create GPS thread
-    priParam.sched_priority = 2;
-    pthread_attr_setschedparam(&pAttrs, &priParam);
-    // retc = pthread_create(&thread, &pAttrs, gpsThread, NULL);
-    if (retc != 0) while (1);  // pthread_create() failed
-
-
     // Create SD card thread
     priParam.sched_priority = 3;
     pthread_attr_setschedparam(&pAttrs, &priParam);
-    retc = pthread_create(&thread, &pAttrs, sdCardThread, NULL);
+     retc = pthread_create(&thread, &pAttrs, sdCardThread, NULL);
     if (retc != 0) while (1);  // pthread_create() failed
 
     // Create accelerometer thread
     priParam.sched_priority = 4;
     pthread_attr_setschedparam(&pAttrs, &priParam);
-    retc = pthread_create(&thread, &pAttrs, accelThread, NULL);
+     retc = pthread_create(&thread, &pAttrs, accelThread, NULL);
     if (retc != 0) while (1);  // pthread_create() failed
 
     // Create XBee thread

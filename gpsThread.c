@@ -31,7 +31,7 @@
  */
 
 /*
- *  ======== uartecho.c ========
+ *  ======== gpsThread.c ========
  */
 #include <stdint.h>
 #include <stddef.h>
@@ -48,7 +48,7 @@
 #include "Adafruit_GPS.h"
 
 /*
- *  ======== mainThread ========
+ *  ======== gpsThread ========
  */
 void *gpsThread(void *arg0)
 {
@@ -73,6 +73,6 @@ void *gpsThread(void *arg0)
     struct gps GPS;
     while(1) {
          Adafruit_GPS_parseOutput(uart, &GPS);
-         Display_printf(display, 0, 0, "Latitude = %f Longitude = %f", GPS.lat, GPS.lon);
+         // Display_printf(display, 0, 0, "Latitude = %f Longitude = %f", GPS.lat, GPS.lon);
     }
 }

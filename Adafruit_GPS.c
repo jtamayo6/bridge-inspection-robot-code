@@ -162,9 +162,9 @@ bool Adafruit_GPS_parse(char *nmea) {
       degreebuff[6] = '\0';
       minutes = 50 * atol(degreebuff) / 3;
       longitude_fixed = degree + minutes;
-      longitude = degree / 100000 + minutes * 0.000006F;
-      longitudeDegrees = (longitude-100*(int)(longitude/100))/60.0;
-      longitudeDegrees += (int)(longitude/100);
+      longitude = degree / 100000.0 + minutes * 0.000006F;
+      longitudeDegrees = (longitude-100*(int)(longitude/100.0))/60.0;
+      longitudeDegrees += (int)(longitude/100.0);
     }
 
     p = strchr(p, ',')+1;
@@ -497,36 +497,50 @@ void Adafruit_GPS_parseSetup(UART_Handle uart) {
 //      System_printf(PMTK_Q_RELEASE);
 }
 
-struct gps Adafruit_GPS_parseOutput(UART_Handle uart, struct gps *GPS)
+void Adafruit_GPS_parseOutput(UART_Handle uart, struct gps *GPS)
 {
-
-
-  // read data from the GPS in the 'main loop'
-  char c = Adafruit_GPS_read(uart);
-  // if you want to debug, this is a good time to do it!
+  char c = Adafruit_GPS_read(uart); // read data from the GPS in the 'main loop'
   // System_printf("read done\n\r");
-  //if (GPSECHO)
-    // if (c) UART_write(uartPC, &c, 1);
-  // if a sentence is received, we can check the checksum, parse it...
-  if (Adafruit_GPS_newNMEAreceived()) {
+
+  // if (GPSECHO) {  // if you want to debug, this is a good time to do it!
+  //   if (c) UART_write(uartPC, &c, 1);
+  // }
+  
+  if (Adafruit_GPS_newNMEAreceived()) { // if a sentence is received, we can check the checksum, parse it...
     // a tricky thing here is if we print the NMEA sentence, or data
     // we end up not listening and catching other sentences!
     // so be very wary if using OUTPUT_ALLDATA and trytng to print out data
+
     // System_printf(Adafruit_GPS_lastNMEA()); // this also sets the newNMEAreceived() flag to false
-    Display_printf(display, 0, 0, Adafruit_GPS_lastNMEA());
-    if (!Adafruit_GPS_parse(Adafruit_GPS_lastNMEA())) // this also sets the newNMEAreceived() flag to false
+    
+    // Display_printf(display, 0, 0, Adafruit_GPS_lastNMEA());
+    
+    // UART_write(uartXbee, Adafruit_GPS_lastNMEA(), 128);
+    
+    if (!Adafruit_GPS_parse(Adafruit_GPS_lastNMEA())) { // this also sets the newNMEAreceived() flag to false
       return; // we can fail to parse a sentence in which case we should just wait for another
-  }
-  GPS->lat = latitudeDegrees + latitude * 1.0 / 60.0;
-  GPS->lon = -longitudeDegrees - longitude * 1.0 / 60.0;
+    }
 
+    if (fix) {
+      // sprintf(tempStr, "Latitude = %f %c, longitude = %f %c\r\n", latitude, lat, longitude, lon);
+      // UART_write(uartXbee, tempStr, strlen(tempStr));
 
-  // if millis() or timer wraps around, we'll just reset it
-//  if (timer > millis()) timer = millis();
+      // sprintf(tempStr, "Degrees latitude = %f, longitude = %f\r\n", latitudeDegrees, longitudeDegrees);
+      sprintf(tempStr, "%f,%f,%0.2i:%0.2i:%0.2i\r\n", latitudeDegrees, longitudeDegrees, hour, minute, seconds);
+      UART_write(uartXbee, tempStr, strlen(tempStr));
+
+      // sprintf(tempStr, "Satellites = %i\r\n", satellites);
+      // UART_write(uartXbee, tempStr, strlen(tempStr));
+
+      GPS->lat = latitudeDegrees + latitude * 1.0 / 60.0;
+      GPS->lon = -longitudeDegrees - longitude * 1.0 / 60.0;
+    }
+
+  // if (timer > millis()) timer = millis(); // if millis() or timer wraps around, we'll just reset it
 
   // approximately every 2 seconds or so, print out the current stats
 //  if (millis() - timer > 2000) {
-//    sleep(2);
+   // sleep(2);
 //  _delay_cycles((48000 - 1) * 100); // (48000 - 1) = 1 ms
 //    timer = millis(); // reset the timer
 
@@ -550,7 +564,7 @@ struct gps Adafruit_GPS_parseOutput(UART_Handle uart, struct gps *GPS)
 //          System_printf(", ");
 //          System_printf("%f, %i", longitude, 4); System_printf("%c\n", lon);
 //          System_printf("Location (in degrees, works with Google Maps): ");
-//          System_printf("%f, %i", latitudeDegrees, 4);
+         // System_printf("%f, %i", latitudeDegrees, 4);
 //          System_printf(", ");
 //          System_printf("%f, %i\n", longitudeDegrees, 4);
 
@@ -560,4 +574,5 @@ struct gps Adafruit_GPS_parseOutput(UART_Handle uart, struct gps *GPS)
 //          System_printf("Satellites: "); System_printf("%i\n", (int)satellites);
 //    }
 //  }
+  }
 }

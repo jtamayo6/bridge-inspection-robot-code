@@ -65,11 +65,15 @@ extern void *xbeeThread(void *arg0);
 extern void *gpsThread(void *arg0);
 
 extern Display_Handle display;
+extern UART_Handle uartXbee;
+extern char tempStr[50];
 
 extern int32_t accelDataBuffer0[ACCEL_DATA_BUF_COUNT];
 extern int32_t accelDataBuffer1[ACCEL_DATA_BUF_COUNT];
+// extern unsigned char cpy_buff[2048+1];
+extern int32_t cpy_buff[3];
 
-extern pthread_barrier_t barrier;
+extern pthread_barrier_t accelDataBarrier;
 extern sem_t semFullAccelBuffer;
 extern sem_t semAccelData;
 extern sem_t semMoveMotors;

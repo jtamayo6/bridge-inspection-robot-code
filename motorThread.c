@@ -31,7 +31,7 @@
  */
 
 /*
- *  ======== uartecho.c ========
+ *  ======== motorThread.c ========
  */
 
 /* XDCtools Header files */
@@ -42,10 +42,6 @@
 /* POSIX Header files */
 #include <pthread.h>
 #include <semaphore.h>
-
-/* TI-RTOS Header files */
-// #include <ti/drivers/GPIO.h>
-// #include <ti/drivers/UART.h>
 
 /* Example/Board Header files */
 #include "Board.h"
@@ -118,7 +114,7 @@ int count1 = 0;
 int count0Copy = 0;
 int count1Copy = 0;
 bool keepMoving = true;
-int moveDist = 8000;
+int moveDist = 40000;
 
 uint8_t triggeredVal0;
 uint8_t otherVal0;
@@ -230,11 +226,6 @@ void motor1_encoderBInt(uint_least8_t index)
 
 // }
 
-
-/*
- *  ======== echoFxn ========
- *  Task for this function is created statically. See the project's .cfg file.
- */
 UART_Handle uartMotor;
 UART_Params uartParams;
 
@@ -246,6 +237,9 @@ void stopMotors(uint_least8_t index) {
     motor1Speed = 0;
 }
 
+/*
+ *  ======== motorThread ========
+ */
 void *motorThread(void *arg0)
 {
     char input;
@@ -265,12 +259,12 @@ void *motorThread(void *arg0)
     if (uartMotor == NULL) while (1);  // Failed to open motor UART
 
     PololuQik_init(uartMotor);
-    input = PololuQik_getFirmwareVersion(uartMotor);
+    // input = PololuQik_getFirmwareVersion(uartMotor);
     // UART_write(uartPC, &input, 1);
-    Display_printf(display, 0, 0, "%c", input);
+    // Display_printf(display, 0, 0, "%c", input);
 
-    retc = pthread_mutex_init(&encoderCount0Mutex, NULL);
-    if (retc != 0) while (1);   // pthread_mutex_init() failed
+    // retc = pthread_mutex_init(&encoderCount0Mutex, NULL);
+    // if (retc != 0) while (1);   // pthread_mutex_init() failed
 
     // Timer_Handle timer1;
     // Timer_Params params;
@@ -285,9 +279,9 @@ void *motorThread(void *arg0)
     // if (timer1 == NULL) while (1);   // Failed to initialized timer
 
     GPIO_setCallback(8, motor0_encoderAInt);
-    GPIO_setCallback(9, motor0_encoderBInt);
+    // GPIO_setCallback(9, motor0_encoderBInt);
     GPIO_setCallback(10, motor1_encoderAInt);
-    GPIO_setCallback(11, motor1_encoderBInt);
+    // GPIO_setCallback(11, motor1_encoderBInt);
 
     GPIO_setCallback(5, stopMotors);
 //    GPIO_enableInt(5);
@@ -322,6 +316,7 @@ void *motorThread(void *arg0)
 
         // int motor0Speed = 48;
         // int motor1Speed = 48;
+
         PololuQik_setSpeeds(uartMotor, motor0Speed, -motor1Speed);
 
 //       GPIO_enableInt(5);
@@ -406,17 +401,3 @@ void *motorThread(void *arg0)
 
     return (NULL);
 }
-
-//void motor0_encoderAInt(unsigned int index)
-//{
-//    /* Clear the GPIO interrupt and toggle an LED */
-//
-//    triggeredVal = GPIO_read(4);
-//    otherVal = GPIO_read(5);
-//    direction = (triggeredVal ^ otherVal) & 0x01;
-//    direction ? encoderCount++ : encoderCount--;
-//    GPIO_write(Board_LED0, (/*triggeredVal &*/ direction));
-//    GPIO_write(Board_LED1, (/*triggeredVal &*/ (0x01 ^ direction)));
-////    System_printf("triggeredVal = %d, otherVal = %d\n", triggeredVal, otherVal);
-////    System_flush();
-//}

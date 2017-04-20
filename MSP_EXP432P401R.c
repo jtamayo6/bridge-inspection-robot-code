@@ -331,14 +331,15 @@ GPIO_PinConfig gpioPinConfigs[] = {
     GPIOMSP432_P2_7 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_HIGH,
 
 
-    // P4.0 for Motor1 Encoder_A
+    // P4.7 for Motor0 Encoder_A
     GPIOMSP432_P4_7 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
-    // P4.2 for Motor1 Encoder_B
+    // P4.3 for Motor0 Encoder_B
     GPIOMSP432_P4_3 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
-    // P6.0 for Motor0 Encoder_A
+    // P5.5 for Motor1 Encoder_A
     GPIOMSP432_P5_5 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
-    // P6.1 for Motor0 Encoder_B
+    // P5.4 for Motor1 Encoder_B
     GPIOMSP432_P5_4 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
+
     // // P4.0 for Motor1 Encoder_A
     // GPIOMSP432_P4_3 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
     // // P4.2 for Motor1 Encoder_B
