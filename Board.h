@@ -1,21 +1,6 @@
 /*
- * Copyright (c) 2015-2017, Texas Instruments Incorporated
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * *  Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * *  Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * *  Neither the name of Texas Instruments Incorporated nor the names of
- *    its contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
+ * Bridge Inspection Robot Team
+ * ECE 4012 Spring 2017 PV2
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -56,6 +41,8 @@ extern "C" {
 // Array size for accelerometer data buffers
 #define ACCEL_DATA_BUF_COUNT     1536    // 1536 = 3*512, since we want to write in 512 byte sectors to the SD card
 
+#define MOVE_DIST       2000
+
 // Extern variables declared here
 
 extern void *sdCardThread(void *arg0);
@@ -83,6 +70,8 @@ extern int count1;
 extern int count0Copy;
 extern int count1Copy;
 extern bool keepMoving;
+extern int moveDist;
+extern uint8_t irFlag;
 
 
 #include "MSP_EXP432P401R.h"

@@ -1,21 +1,6 @@
 /*
- * Copyright (c) 2015-2016, Texas Instruments Incorporated
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * *  Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * *  Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * *  Neither the name of Texas Instruments Incorporated nor the names of
- *    its contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
+ * Bridge Inspection Robot Team
+ * ECE 4012 Spring 2017 PV2
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -285,26 +270,30 @@ void *sdCardThread(void *arg0)
 
     
         // Now output the outputfile[] contents onto the console
-        // dst = fopen(outputfile, "r");
-        // if (!dst) {
-        //    Display_printf(display, 0, 0, "Error opening \"%s\"\n", outputfile);
-        //    Display_printf(display, 0, 0, "Aborting...\n");
-        //    while (1);
-        // }
-        // while (true) {
-        //     // bytesRead = fread(cpy_buff, 1, CPY_BUFF_SIZE, dst);
-        //     bytesRead = fread(cpy_buff, sizeof(*accelDataBuffer0), 3, dst);
-        //     if (bytesRead == 0) break; /* Error or EOF */
-        //     // Display_printf(display, 0, 0, "%d,%d,%d,", cpy_buff[0], cpy_buff[1], cpy_buff[2]);
+         dst = fopen(outputfile, "r");
+         if (!dst) {
+            Display_printf(display, 0, 0, "Error opening \"%s\"\n", outputfile);
+            Display_printf(display, 0, 0, "Aborting...\n");
+            while (1);
+         }
+         sprintf(tempStr, "{\n");
+         UART_write(uartXbee, tempStr, strlen(tempStr));
 
-        //     sprintf(tempStr, "%d,%d,%d,\r\n", cpy_buff[0], cpy_buff[1], cpy_buff[2]);
-        //     UART_write(uartXbee, tempStr, strlen(tempStr));
+         while (true) {
+             // bytesRead = fread(cpy_buff, 1, CPY_BUFF_SIZE, dst);
+             bytesRead = fread(cpy_buff, sizeof(*accelDataBuffer0), 3, dst);
+             if (bytesRead == 0) break; /* Error or EOF */
+             // Display_printf(display, 0, 0, "%d,%d,%d,", cpy_buff[0], cpy_buff[1], cpy_buff[2]);
 
-        //     // cpy_buff[bytesRead] = '\0';
-        //     // UART_write(uartXbee, cpy_buff, CPY_BUFF_SIZE);
+             sprintf(tempStr, "%d,%d,%d,\r\n", cpy_buff[0], cpy_buff[1], cpy_buff[2]);
+             UART_write(uartXbee, tempStr, strlen(tempStr));
 
-        // }
-        // fclose(dst);
+             // cpy_buff[bytesRead] = '\0';
+             // UART_write(uartXbee, cpy_buff, CPY_BUFF_SIZE);
+         }
+         sprintf(tempStr, "}\n");
+         UART_write(uartXbee, tempStr, strlen(tempStr));
+         fclose(dst);
 
         recordNum++;
         pthread_barrier_wait(&accelDataBarrier);

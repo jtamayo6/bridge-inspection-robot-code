@@ -1,21 +1,6 @@
 /*
- * Copyright (c) 2016-2017, Texas Instruments Incorporated
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * *  Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * *  Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * *  Neither the name of Texas Instruments Incorporated nor the names of
- *    its contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
+ * Bridge Inspection Robot Team
+ * ECE 4012 Spring 2017 PV2
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -47,33 +32,80 @@
 /* Example/Board Header files */
 #include "Board.h"
 
+/* String conversion macro */
+#define STR_(n)             #n
+#define STR(n)              STR_(n)
+
+const char dataArray[] = \
+"{\n"
+"-8394,-2085,-262523,\n"
+"-8187,-2118,-262415,\n"
+"-8035,-2419,-262642,\n"
+"-7733,-2506,-262989,\n"
+"-7283,-2572,-262680,\n"
+"-7048,-2705,-261708,\n"
+"-7070,-2803,-261911,\n"
+"-7186,-2751,-262200,\n"
+"-7326,-2566,-261840,\n"
+"-7346,-2692,-261673,\n"
+"-7601,-2540,-262667,\n"
+"-7762,-2345,-262377,\n"
+"-8221,-2100,-262285,\n"
+"-8431,-1954,-262605,\n"
+"-8506,-1860,-262830,\n"
+"-8492,-1934,-262253,\n"
+"-8325,-2097,-261943,\n"
+"-8110,-2192,-262124,\n"
+"-7907,-2593,-262026,\n"
+"-7423,-2820,-262176,\n"
+"-7132,-2755,-262143,\n"
+"-7062,-2804,-262166,\n"
+"-6762,-2873,-261690,\n"
+"-6841,-2835,-261660,\n"
+"-7038,-2803,-262091,\n"
+"-7611,-2547,-262526,\n"
+"-7595,-2427,-262482,\n"
+"-8077,-2180,-262302,\n"
+"-8141,-1992,-261718,\n"
+"-8248,-2439,-262563,\n"
+"-8350,-1879,-262185,\n"
+"-8312,-2020,-262968,\n"
+"-8091,-2211,-262843,\n"
+"-7996,-2201,-262014,\n"
+"-7625,-2288,-261663,\n"
+"-7294,-2477,-262009,\n"
+"-7150,-2609,-262539,\n"
+"-7121,-2947,-262826,\n"
+"-7132,-2885,-262678,\n"
+"-7121,-2603,-261786,\n"
+"}\n";
+
 /* Console display strings */
 const char textarray[] = \
-"***********************************************************************\n"
-"0         1         2         3         4         5         6         7\n"
-"01234567890123456789012345678901234567890123456789012345678901234567890\n"
-"This is some text to be inserted into the inputfile if there isn't\n"
-"already an existing file located on the media.\n"
-"If an inputfile already exists, or if the file was already once\n"
-"generated, then the inputfile will NOT be modified.\n"
-"***********************************************************************\n";
-
-
+"************************************************************************\r\n"
+"Sample text to test UART reliability abcdefghijklmnopqrstuvwxyz123456789\r\n"
+"So then it's up with the White and Gold\r\n"
+"Down with the Red and Black\r\n"
+"Georgia Tech is out for a victory\r\n"
+"We'll drop the battle axe on georgia's head, CHOP!\r\n"
+"When we meet her our team will surely beat her\r\n"
+"Down on the old farm there'll be no sound\r\n"
+"When our bow wows rip through the air\r\n"
+"When the battle is over georgia's team will be found\r\n"
+"With the Yellow Jackets swarming around!\r\n"
+"************************************************************************\r\n";
 const char consoleDisplay[]   = "\fConsole (h for help)\r\n";
 const char helpPrompt[]       = "Valid Commands\r\n"                  \
                                 "--------------\r\n"                  \
                                 "h: help\r\n"                         \
-                                "q: quit and shutdown UART\r\n"       \
                                 "c: clear the screen\r\n"             \
-                                "r: record accelerometer data\r\n";
-const char byeDisplay[]       = "Bye! Hit button1 to start UART again\r\n";
-// const char tempStartDisplay[] = "Current temp = ";
-// const char tempMidDisplay[]   = "C (";
-// const char tempEndDisplay[]   = "F)\r\n";
+                                "r: record accelerometer data\r\n"    \
+                                "m: move "STR(MOVE_DIST)" ticks\r\n"  \
+                                "y: print sample text from robot\r\n"
+                                "d: run demo\r\n";
 const char cleanDisplay[]     = "\f";
 const char userPrompt[]       = "> ";
 const char readErrDisplay[]   = "Problem read UART.\r\n";
-
 const char spaceDisplay[] = " ";
 const char newLineDisplay[] = "\r\n";
 
@@ -81,7 +113,8 @@ const char recordAccelDisplay[] = "Reading the accelerometer for 5 seconds...\r\
 const char recordAccelDoneDisplay[] = "Accelerometer reading complete\r\n";
 
 const char moveMotorsDisplay[] = "Encoder counts for Motor 1 and 0: ";
-const char moveMotorsDoneDisplay[] = "Robot has moved 5000 ticks. Counts = ";
+
+// const char moveMotorsDoneDisplay[] = "Robot has moved 5000 ticks. Counts = ";
 
 char tempStr[50];
 
@@ -126,10 +159,6 @@ void encoderTimerCallback(Timer_Handle myHandle)
     count0Copy = count0;
     count1Copy = count1;
 
-    itoa(count0Copy, count0Str);
-    itoa(count1Copy, count1Str);
-    itoa(motor0Speed, motor0Str);
-    itoa(motor1Speed, motor1Str);
     sem_post(&semPrintMotorEncoders);
     sem_post(&semMoveMotors);
     // semPrintMotorEncoders = true;
@@ -184,7 +213,7 @@ void *xbeeThread(void *arg0)
     uartParams.writeDataMode  = UART_DATA_BINARY;
     uartParams.readDataMode   = UART_DATA_BINARY;
     uartParams.readReturnMode = UART_RETURN_FULL;
-    uartParams.baudRate = 9600;
+    uartParams.baudRate = 115200;   // 9600;
 
     uartXbee = UART_open(Board_UART3, &uartParams);
     if (uartXbee == NULL) while (1);    // Failed to open XBee UART
@@ -197,15 +226,33 @@ void *xbeeThread(void *arg0)
     if (retc == -1) while (1);  // sem_init() failed
 
     /* Loop until read fails or user quits */
+
+    const char demoCommands[] = "mrm";
+    bool runDemo = true;
+    int idx;
     while (1) {
-        UART_write(uartXbee, userPrompt, sizeof(userPrompt));
-        retc = UART_read(uartXbee, &cmd, sizeof(cmd));
-        if (retc == 0) {
-            UART_write(uartXbee, readErrDisplay, sizeof(readErrDisplay));
-            cmd = 'q';
+        if (runDemo) {
+            cmd = demoCommands[idx++];
+            if (idx == strlen(demoCommands)) {
+                runDemo = false;
+            }
+            sleep(2);
+        } else {
+            UART_write(uartXbee, userPrompt, sizeof(userPrompt));
+            retc = UART_read(uartXbee, &cmd, sizeof(cmd));
+            if (retc == 0) {
+                UART_write(uartXbee, readErrDisplay, sizeof(readErrDisplay));
+                cmd = 'q';
+            }
         }
 
         switch (cmd) {
+            case 'd':
+                runDemo = true;
+                idx = 0;
+                sprintf(tempStr, "Starting demo...\r\n");
+                UART_write(uartXbee, tempStr, strlen(tempStr));
+                break;
             case 'y':
                 UART_write(uartXbee, textarray, sizeof(textarray));
                 break;
@@ -231,16 +278,11 @@ void *xbeeThread(void *arg0)
             case 'c':
                 UART_write(uartXbee, cleanDisplay, sizeof(cleanDisplay));
                 break;
-            case 'q':
-                UART_write(uartXbee, byeDisplay, sizeof(byeDisplay));
-                UART_close(uartXbee);
-                return (NULL);
             case 'm':
                 retc = sem_post(&semMoveMotors);
                 if (retc == -1) while (1);
 
                 if (Timer_start(timer1) == Timer_STATUS_ERROR) while (1); // Failed to start timer
-
 
                 // while (keepMoving) {
                 //     // sem_wait(&semMoveMotors);
@@ -260,18 +302,38 @@ void *xbeeThread(void *arg0)
                 // while(keepMoving);
 
                 while (keepMoving) {
-                    // itoa(count0Copy, tempStr);
-                    UART_write(uartXbee, moveMotorsDisplay, sizeof(moveMotorsDisplay));
-                    UART_write(uartXbee, count1Str, strlen(count1Str));
-                    UART_write(uartXbee, spaceDisplay, sizeof(spaceDisplay));
-                    UART_write(uartXbee, count0Str, strlen(count0Str));
-                    // UART_write(uartXbee, newLineDisplay, sizeof(newLineDisplay));
+                    if (irFlag) {
+                        Timer_stop(timer1);
 
-                    UART_write(uartXbee, spaceDisplay, sizeof(spaceDisplay));
-                    UART_write(uartXbee, motor1Str, strlen(motor1Str));
-                    UART_write(uartXbee, spaceDisplay, sizeof(spaceDisplay));
-                    UART_write(uartXbee, motor0Str, strlen(motor0Str));
-                    UART_write(uartXbee, newLineDisplay, sizeof(newLineDisplay));
+                        sprintf(tempStr, "Edge detected on IR sensor %i, correcting...\r\n", irFlag);
+                        UART_write(uartXbee, tempStr, strlen(tempStr));
+                        
+                        sem_wait(&semMoveMotors);   // Wait for robot to correct itself
+
+                        sprintf(tempStr, "Robot has corrected itself, continuing movement...\r\n");
+                        UART_write(uartXbee, tempStr, strlen(tempStr));
+
+                        Timer_start(timer1);
+                    }
+
+                     itoa(count0Copy, count0Str);
+                     itoa(count1Copy, count1Str);
+                     itoa(motor0Speed, motor0Str);
+                     itoa(motor1Speed, motor1Str);
+
+//                    sprintf(tempStr, "count0 = %llu, count1 = %llu\r\n", count0Copy, count1Copy);
+//                    UART_write(uartXbee, tempStr, strlen(tempStr));
+
+                     UART_write(uartXbee, moveMotorsDisplay, sizeof(moveMotorsDisplay));
+                     UART_write(uartXbee, count1Str, strlen(count1Str));
+                     UART_write(uartXbee, spaceDisplay, sizeof(spaceDisplay));
+                     UART_write(uartXbee, count0Str, strlen(count0Str));
+
+                     UART_write(uartXbee, spaceDisplay, sizeof(spaceDisplay));
+                     UART_write(uartXbee, motor1Str, strlen(motor1Str));
+                     UART_write(uartXbee, spaceDisplay, sizeof(spaceDisplay));
+                     UART_write(uartXbee, motor0Str, strlen(motor0Str));
+                     UART_write(uartXbee, newLineDisplay, sizeof(newLineDisplay));
 
                     // usleep(200000);
                     sem_wait(&semPrintMotorEncoders);
@@ -287,7 +349,9 @@ void *xbeeThread(void *arg0)
                 itoa(count0Copy, count0Str);
                 itoa(count1Copy, count1Str);
 
-                UART_write(uartXbee, moveMotorsDoneDisplay, sizeof(moveMotorsDoneDisplay));
+                sprintf(tempStr, "Robot has moved %d ticks. Counts = \r\n", MOVE_DIST);
+                UART_write(uartXbee, tempStr, strlen(tempStr));
+                // UART_write(uartXbee, moveMotorsDoneDisplay, sizeof(moveMotorsDoneDisplay));
                 UART_write(uartXbee, count1Str, strlen(count1Str));
                 UART_write(uartXbee, spaceDisplay, sizeof(spaceDisplay));
                 UART_write(uartXbee, count0Str, strlen(count0Str));

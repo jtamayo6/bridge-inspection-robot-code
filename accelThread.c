@@ -1,21 +1,6 @@
 /*
- * Copyright (c) 2015-2016, Texas Instruments Incorporated
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * *  Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *
- * *  Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
- *
- * *  Neither the name of Texas Instruments Incorporated nor the names of
- *     its contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ * Bridge Inspection Robot Team
+ * ECE 4012 Spring 2017 PV2
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -72,10 +57,6 @@ int32_t accelDataBuffer0[ACCEL_DATA_BUF_COUNT];
 int32_t accelDataBuffer1[ACCEL_DATA_BUF_COUNT];
 
 uint32_t errorCount = 0;
-
-// void fifoOver(uint_least8_t index) {
-    // errorCount++;
-// }
 
 int time_ms = 0;
 
@@ -280,7 +261,6 @@ void *accelThread(void *arg0)
                     // transferOK = SPI_transfer(masterSpi, &fifoOverTransaction);
                     // GPIO_write(4, 1);
                 }
-    //            Display_printf(display, 0, 0, "%d,%d,%d", accelDataBuffer0[0], accelDataBuffer0[1], accelDataBuffer0[2]);
             } else {
                 // if (GPIO_read(7)) {
                 //     GPIO_write(4, 0);

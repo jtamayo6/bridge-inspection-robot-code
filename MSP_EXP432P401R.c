@@ -1,21 +1,6 @@
 /*
- * Copyright (c) 2015-2017, Texas Instruments Incorporated
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * *  Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * *  Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * *  Neither the name of Texas Instruments Incorporated nor the names of
- *    its contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
+ * Bridge Inspection Robot Team
+ * ECE 4012 Spring 2017 PV2
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -314,22 +299,13 @@ GPIO_PinConfig gpioPinConfigs[] = {
     GPIOMSP432_P2_0 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_HIGH | GPIO_CFG_OUT_LOW,
 
     // P2_4 for SPI_B2 SS
-    // GPIOMSP432_P2_4 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_HIGH | GPIO_CFG_OUT_LOW,
     GPIOMSP432_P9_3 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_HIGH | GPIO_CFG_OUT_LOW,
-
-
-    // P2.6 for DRDY Interrupt Pin
-    // GPIOMSP432_P2_6 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING, // GPIO_CFG_IN_INT_HIGH,
+    // P5.6 for DRDY Interrupt Pin - this pin is unused, the configuration is kept for the sake of indexing
     GPIOMSP432_P5_6 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_HIGH,
-
-    // P2.7 for INT1 Interrupt Pin
-    // GPIOMSP432_P2_7 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_HIGH,
+    // P2.6 for INT1 Interrupt Pin
     GPIOMSP432_P2_6 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_HIGH,
-
-    // P5.6 for INT2 Interrupt Pin
-    // GPIOMSP432_P5_6 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_HIGH,
+    // P2.7 for INT2 Interrupt Pin
     GPIOMSP432_P2_7 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_HIGH,
-
 
     // P4.7 for Motor0 Encoder_A
     GPIOMSP432_P4_7 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
@@ -339,21 +315,15 @@ GPIO_PinConfig gpioPinConfigs[] = {
     GPIOMSP432_P5_5 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
     // P5.4 for Motor1 Encoder_B
     GPIOMSP432_P5_4 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
-
-    // // P4.0 for Motor1 Encoder_A
-    // GPIOMSP432_P4_3 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
-    // // P4.2 for Motor1 Encoder_B
-    // GPIOMSP432_P4_7 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
-
-    /*
-     * MSP_EXP432P401R_GPIO_LED_GREEN & MSP_EXP432P401R_GPIO_LED_BLUE are used for
-     * PWM examples.  Uncomment the following lines if you would like to control
-     * the LEDs with the GPIO driver.
-     */
-    /* MSP_EXP432P401R_GPIO_LED_GREEN */
-    //GPIOMSP432_P2_1 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_HIGH | GPIO_CFG_OUT_LOW,
-    /* MSP_EXP432P401R_GPIO_LED_BLUE */
-    //GPIOMSP432_P2_2 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_HIGH | GPIO_CFG_OUT_LOW
+    
+    // P4.5 for IR Sensor 1 (Front-Right)
+    GPIOMSP432_P4_5 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
+    // P4.4 for IR Sensor 2 (Back-Right)
+    GPIOMSP432_P4_4 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
+    // P4.2 for IR Sensor 3 (Back-Left)
+    GPIOMSP432_P4_2 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
+    // P4.0 for IR Sensor 4 (Front-Left)
+    GPIOMSP432_P4_0 | GPIO_CFG_INPUT | GPIO_CFG_IN_INT_RISING,
 };
 
 /*

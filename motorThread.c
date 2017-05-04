@@ -1,21 +1,6 @@
 /*
- * Copyright (c) 2015, Texas Instruments Incorporated
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * *  Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * *  Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * *  Neither the name of Texas Instruments Incorporated nor the names of
- *    its contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
+ * Bridge Inspection Robot Team
+ * ECE 4012 Spring 2017 PV2
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -113,8 +98,7 @@ int count0 = 0;
 int count1 = 0;
 int count0Copy = 0;
 int count1Copy = 0;
-bool keepMoving = true;
-int moveDist = 40000;
+bool keepMoving = false;
 
 uint8_t triggeredVal0;
 uint8_t otherVal0;
@@ -126,8 +110,6 @@ uint8_t direction1;
 
 void motor0_encoderAInt(uint_least8_t index)
 {
-    /* Clear the GPIO interrupt and toggle an LED */
-
     // triggeredVal0 = GPIO_read(4);
     otherVal0 = GPIO_read(9);
     // direction0 = (triggeredVal0 ^ otherVal0) & 0x01;
@@ -135,22 +117,14 @@ void motor0_encoderAInt(uint_least8_t index)
 
     // pthread_mutex_lock(&encoderCount0Mutex);
     otherVal0 ? count0++ : count0--;
+    // count0++;
     // GPIO_write(Board_GPIO_LED0, (/*triggeredVal &*/ direction0));
-    // pthread_mutex_unlock(&encoderCount0Mutex);
 
-    if (count0 >= moveDist) keepMoving = false;
-
-    // GPIO_write(Board_GPIO_LED0, otherVal0);
-
-//    GPIO_write(Board_GPIO_LED1, (/*triggeredVal &*/ (0x01 ^ direction0)));
-//    System_printf("triggeredVal = %d, otherVal = %d\n", triggeredVal, otherVal);
-//    System_flush();
+   if (abs(count0) >= MOVE_DIST) keepMoving = false;
 }
 
 void motor0_encoderBInt(uint_least8_t index)
 {
-    /* Clear the GPIO interrupt and toggle an LED */
-
     // triggeredVal0 = GPIO_read(4);
     otherVal0 = GPIO_read(8);
     // direction0 = (triggeredVal0 ^ otherVal0) & 0x01;
@@ -158,47 +132,39 @@ void motor0_encoderBInt(uint_least8_t index)
 
     // pthread_mutex_lock(&encoderCount0Mutex);
     otherVal0 ? count0-- : count0++;
-    // GPIO_write(Board_GPIO_LED0, (/*triggeredVal &*/ direction0));
-    // pthread_mutex_unlock(&encoderCount0Mutex);
+    // count0++;
 
-    if (count0 >= moveDist) keepMoving = false;
-
-    // GPIO_write(Board_GPIO_LED1, otherVal0);
-
-//    GPIO_write(Board_GPIO_LED1, (/*triggeredVal &*/ (0x01 ^ direction0)));
-//    System_printf("triggeredVal = %d, otherVal = %d\n", triggeredVal, otherVal);
-//    System_flush();
+   if (abs(count0) >= MOVE_DIST) keepMoving = false;
 }
 
-/* Motor 1 moves in the opposite direction as Motor 0 when going forward, 
+/* 
+ * Motor 1 moves in the opposite direction as Motor 0 when going forward, 
  * so flip the count increment/decrements
  */
 void motor1_encoderAInt(uint_least8_t index)
 {
-    /* Clear the GPIO interrupt and toggle an LED */
-
     // triggeredVal0 = GPIO_read(4);
     otherVal1 = GPIO_read(11);
     // direction0 = (triggeredVal0 ^ otherVal0) & 0x01;
     // direction0 ? count0++ : count0--;
 
     otherVal1 ? count1-- : count1++;
+    // count1++;
 
-    if (count1 >= moveDist) keepMoving = false;
+   if (abs(count1) >= MOVE_DIST) keepMoving = false;
 }
 
 void motor1_encoderBInt(uint_least8_t index)
 {
-    /* Clear the GPIO interrupt and toggle an LED */
-
     // triggeredVal0 = GPIO_read(4);
     otherVal1 = GPIO_read(10);
     // direction0 = (triggeredVal0 ^ otherVal0) & 0x01;
     // direction0 ? count0++ : count0--;
 
     otherVal1 ? count1++ : count1--;
+    // count1++;
 
-    if (count1 >= moveDist) keepMoving = false;
+   if (abs(count1) >= MOVE_DIST) keepMoving = false;
 }
 
 // void encoderTimerCallback(Timer_Handle myHandle)
@@ -231,10 +197,14 @@ UART_Params uartParams;
 
 int motor0Speed = 64;
 int motor1Speed = 64;
+uint8_t irFlag = 0;
 
-void stopMotors(uint_least8_t index) {
-    motor0Speed = 0;
-    motor1Speed = 0;
+void edgeDetected(uint_least8_t index) {
+    // motor0Speed = 0;
+    // motor1Speed = 0;
+    if (!irFlag) {
+        irFlag = index - 11;
+    }
 }
 
 /*
@@ -242,7 +212,7 @@ void stopMotors(uint_least8_t index) {
  */
 void *motorThread(void *arg0)
 {
-    char input;
+//    char input;
     // UART_Handle uartMotor;
     // UART_Params uartParams;
     int retc;
@@ -283,8 +253,10 @@ void *motorThread(void *arg0)
     GPIO_setCallback(10, motor1_encoderAInt);
     // GPIO_setCallback(11, motor1_encoderBInt);
 
-    GPIO_setCallback(5, stopMotors);
-//    GPIO_enableInt(5);
+    GPIO_setCallback(12, edgeDetected);
+    GPIO_setCallback(13, edgeDetected);
+    GPIO_setCallback(14, edgeDetected);
+    GPIO_setCallback(15, edgeDetected);
 
 
     /* Enable interrupts */
@@ -293,15 +265,36 @@ void *motorThread(void *arg0)
     GPIO_enableInt(10);
     GPIO_enableInt(11);
 
+    // GPIO_enableInt(12);
+    // GPIO_enableInt(13);  // disable rear IR sensors...
+    // GPIO_enableInt(14);  // disable rear IR sensors...
+    // GPIO_enableInt(15);
+
     // if (Timer_start(timer1) == Timer_STATUS_ERROR) while (1); // Failed to start timer
 
     //    UART_write(uartMotor, echoPrompt, sizeof(echoPrompt));
     //    System_printf("Serial starting\n" );
 
-    
-    // PololuQik_setSpeeds(uartMotor, 64, 64);
-    // Task_sleep(5000);
-    // PololuQik_setSpeeds(uartMotor, 0, 0);
+
+    // count0 = 0;
+    // count1 = 0;
+    // count0Copy = 0;
+    // count1Copy = 0;
+    // keepMoving = true;
+    // retc = sem_wait(&semMoveMotors);
+    // while (1) {
+    //     if (irFlag) {
+    //         PololuQik_setSpeeds(uartMotor, -64, 64);
+    //         irFlag = 0;
+    //         sleep(4);
+    //     }
+    //     PololuQik_setSpeeds(uartMotor, 64, -64);
+    //     // sleep(4);
+    //     // PololuQik_setSpeeds(uartMotor, -64, 64);
+    //     // sleep(4);
+    //     sem_wait(&semMoveMotors);
+    // }
+    bool forwards = true;
 
     while (1) {
         count0 = 0;
@@ -317,7 +310,11 @@ void *motorThread(void *arg0)
         // int motor0Speed = 48;
         // int motor1Speed = 48;
 
-        PololuQik_setSpeeds(uartMotor, motor0Speed, -motor1Speed);
+        if (forwards) {
+            PololuQik_setSpeeds(uartMotor, motor0Speed, -motor1Speed);
+        } else {
+            PololuQik_setSpeeds(uartMotor, -motor0Speed, motor1Speed);
+        }
 
 //       GPIO_enableInt(5);
 
@@ -328,6 +325,49 @@ void *motorThread(void *arg0)
 
         int error;
         while (keepMoving) {
+            if (irFlag) {
+                PololuQik_setSpeeds(uartMotor, 0, 0);
+                sleep(1);
+                switch (irFlag) {
+                    case 1:
+                       // PololuQik_setSpeeds(uartMotor, -32, 32);
+                       // sleep(2);
+                       // PololuQik_setSpeeds(uartMotor, 16, 16);
+                       // sleep(1);
+                         PololuQik_setSpeeds(uartMotor, -64, 64);
+                         sleep(1);
+                         PololuQik_setSpeeds(uartMotor, 64, 64);
+                         sleep(1);
+                        break;
+                    case 2:
+                        PololuQik_setSpeeds(uartMotor, 32, -32);
+                        sleep(2);
+                        PololuQik_setSpeeds(uartMotor, -16, -16);
+                        sleep(1);
+                        break;
+                    case 3:
+                        PololuQik_setSpeeds(uartMotor, 32, -32);
+                        sleep(2);
+                        PololuQik_setSpeeds(uartMotor, 16, 16);
+                        sleep(1);
+                        break;
+                    default:    // irFlag == 4
+//                        PololuQik_setSpeeds(uartMotor, -32, 32);
+//                        sleep(2);
+//                        PololuQik_setSpeeds(uartMotor, -16, -16);
+//                        sleep(1);
+                         PololuQik_setSpeeds(uartMotor, -64, 64);
+                         sleep(1);
+                         PololuQik_setSpeeds(uartMotor, -64, -64);
+                         sleep(1);
+                        break;
+                }
+                PololuQik_setSpeeds(uartMotor, 0, 0);
+                count0 = count0Copy;
+                count1 = count1Copy;
+                irFlag = 0;
+                sem_post(&semMoveMotors);   // Signal XBee to continue
+            }
 
             error = count1Copy - count0Copy;
             // if (error > 100) {
@@ -338,20 +378,37 @@ void *motorThread(void *arg0)
             // error /= 50;
             if (error > 0) {
                 // motor0Speed -= error;
-                motor0Speed = 64 + error/3;
-                motor1Speed = 64;
-                if (motor0Speed > 90) {
-                    motor0Speed = 90;
+                if (forwards) {
+                    motor0Speed = 64 + error/3;
+                    motor1Speed = 64;
+                    if (motor0Speed > 90) {
+                        motor0Speed = 90;
+                    }
+                } else {
+                    motor0Speed = 64;
+                    motor1Speed = 64 + error/3;
+                    if (motor1Speed > 90) {
+                        motor1Speed = 90;
+                    }
                 }
+
                 // } else if (motor0Speed < 43) {
                 //     motor0Speed = 43;
                 // }
             } else {
                 // motor1Speed += error;
-                motor0Speed = 64;
-                motor1Speed = 64 - error/3;
-                if (motor1Speed > 90) {
-                motor1Speed = 90;
+                if (forwards) {
+                    motor0Speed = 64;
+                    motor1Speed = 64 - error/3;
+                    if (motor1Speed > 90) {
+                        motor1Speed = 90;
+                    }
+                } else {
+                    motor0Speed = 64 - error/3;
+                    motor1Speed = 64;
+                    if (motor0Speed > 90) {
+                        motor0Speed = 90;
+                    }
                 }
                 // if (motor1Speed > 53) {
                 //     motor1Speed = 53;
@@ -374,8 +431,15 @@ void *motorThread(void *arg0)
             //         motor1Speed = -127;
             //     }
             // }
+
+           motor0Speed += 32;
+           motor1Speed += 32;
             
-            PololuQik_setSpeeds(uartMotor, motor0Speed, -motor1Speed);
+            if (forwards) {
+                PololuQik_setSpeeds(uartMotor, motor0Speed, -motor1Speed);
+            } else {
+                PololuQik_setSpeeds(uartMotor, -motor0Speed, motor1Speed);
+            }
 
             sem_wait(&semMoveMotors);
         }
@@ -397,6 +461,12 @@ void *motorThread(void *arg0)
         // encoderCount++;
         // Display_printf(display, 0, 0, "time = %d s", encoderCount);
         // sleep(1);
+
+        if (forwards) {
+            forwards = false;
+        } else {
+            forwards = true;
+        }
     }
 
     return (NULL);
